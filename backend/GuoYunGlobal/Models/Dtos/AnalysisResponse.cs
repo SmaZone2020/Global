@@ -5,6 +5,12 @@ namespace GuoYunGlobal.Models.Dtos;
 
 public class AnalysisResponse
 {
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("projectId")]
+    public int ProjectId { get; set; }
+
     [JsonPropertyName("type")]
     public AnalysisType Type { get; set; }
 
@@ -12,7 +18,7 @@ public class AnalysisResponse
     public object? Content { get; set; }
 
     [JsonPropertyName("sources")]
-    public List<string> Sources { get; set; } = new();
+    public object? Sources { get; set; }
 
     [JsonPropertyName("createdAt")]
     public DateTime CreatedAt { get; set; }

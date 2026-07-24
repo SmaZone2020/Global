@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using GuoYunGlobal.Data;
+using GuoYunGlobal.Services.Demo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,9 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
+
+// Services
+builder.Services.AddScoped<DemoDataService>();
 
 // OpenAPI
 builder.Services.AddOpenApi();
