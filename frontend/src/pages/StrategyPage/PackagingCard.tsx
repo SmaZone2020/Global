@@ -29,7 +29,7 @@ export default function PackagingCard({ data, onRegenerate, regenerating }: Prop
       <div className="mt-4 bg-cream-dark/40 p-4 border border-ink/5">
         <p className="text-xs text-ink/40 mb-2">标签信息</p>
         <ul className="space-y-1.5">
-          {data.labelInfo.map((info, i) => (
+          {(data.labelInfo ?? []).map((info, i) => (
             <li key={i} className="text-sm text-ink/70 flex items-start gap-2">
               <span className="w-1 h-1 mt-2 bg-gold shrink-0" />
               {info}
