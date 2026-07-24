@@ -25,8 +25,6 @@ public class OpenAiImageProvider : IImageProvider
         _options = options.Value;
 
         _http.BaseAddress = new Uri(_options.Endpoint.TrimEnd('/') + "/");
-        _http.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", _options.ApiKey);
         _http.Timeout = TimeSpan.FromSeconds(_options.TimeoutSeconds);
         _logger = logger;
     }
@@ -53,6 +51,7 @@ public class OpenAiImageProvider : IImageProvider
         {
             Content = new StringContent(json, Encoding.UTF8, "application/json")
         };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _options.ApiKey);
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/event-stream"));
 
         using var response = await _http.SendAsync(
@@ -70,6 +69,10 @@ public class OpenAiImageProvider : IImageProvider
         var rawBody = await response.Content.ReadAsStringAsync(ct);
         _logger.LogInformation("[IMG] RAW body={Body}",
             rawBody[..Math.Min(1000, rawBody.Length)]);
+
+        // Handle API-level errors (200 status but success=false)
+        if (rawBody.Contains("\"success\":false") || rawBody.Contains("\"success\": false"))
+            throw new HttpRequestException($"Image API error: {rawBody[..Math.Min(200, rawBody.Length)]}");
 
         var fullContent = ParseSseContent(rawBody);
 
