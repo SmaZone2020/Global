@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Loader2, Sparkles, Copy, Check, Film, Image, FileText, BookOpen } from 'lucide-react'
+import { Loader2, Sparkles, Copy, Check, Film, Image, FileText, BookOpen, ArrowRight } from 'lucide-react'
 import { projectApi } from '@/services/api'
 import type { GeneratedAsset } from '@/types'
 import GoldParticles from '@/components/shared/GoldParticles'
@@ -43,6 +43,7 @@ const contentTypeLabels: Record<string, string> = {
 
 export default function MarketingPage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const projectId = Number(id)
 
   const [channel, setChannel] = useState('instagram')
@@ -93,6 +94,19 @@ export default function MarketingPage() {
           <h2 className="text-2xl font-bold text-ink mb-1 font-serif">AI 营销工作台</h2>
           <p className="text-xs text-gold/30 tracking-wider uppercase">Marketing Studio</p>
         </div>
+        <motion.button
+          onClick={() => navigate(`/project/${projectId}/report`)}
+          className="group relative flex items-center gap-2 px-6 py-2.5 text-sm
+                     font-semibold overflow-hidden cursor-pointer"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-gold-dark via-gold to-gold-light" />
+          <span className="relative z-10 text-ink flex items-center gap-2">
+            查看报告
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </motion.button>
       </motion.div>
 
       {/* Control Panel */}
