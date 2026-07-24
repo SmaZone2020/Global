@@ -79,4 +79,10 @@ export const projectApi = {
 
   getReport: (id: number): ApiCall<any> =>
     api.get(`/projects/${id}/report`),
+
+  list: (): ApiCall<Project[]> =>
+    api.get('/projects'),
+
+  deleteProject: (id: number): ApiCall<null> =>
+    api.delete(`/projects/${id}`),
 }
