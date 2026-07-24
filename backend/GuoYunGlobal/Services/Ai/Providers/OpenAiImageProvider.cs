@@ -34,13 +34,7 @@ public class OpenAiImageProvider : IImageProvider
         var body = new
         {
             model = _options.Model,
-            group = "vip_2_image",
-            messages = new[] { new { role = "user", content = prompt } },
-            stream = false,
-            temperature = 0.7,
-            top_p = 1,
-            frequency_penalty = 0,
-            presence_penalty = 0
+            messages = new[] { new { role = "user", content = prompt } }
         };
 
         var json = JsonSerializer.Serialize(body);
