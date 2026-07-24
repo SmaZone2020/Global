@@ -5,6 +5,7 @@ using GuoYunGlobal.Models.Dtos;
 using GuoYunGlobal.Models.Entities;
 using GuoYunGlobal.Models.Enums;
 using GuoYunGlobal.Services.Demo;
+using GuoYunGlobal.Services.Document;
 
 namespace GuoYunGlobal.Controllers;
 
@@ -14,11 +15,16 @@ public class ProjectController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly DemoDataService _demoDataService;
+    private readonly DocumentParseService _documentParseService;
 
-    public ProjectController(AppDbContext context, DemoDataService demoDataService)
+    public ProjectController(
+        AppDbContext context,
+        DemoDataService demoDataService,
+        DocumentParseService documentParseService)
     {
         _context = context;
         _demoDataService = demoDataService;
+        _documentParseService = documentParseService;
     }
 
     [HttpPost]
@@ -110,5 +116,90 @@ public class ProjectController : ControllerBase
 
         var response = ProjectResponse.FromEntity(project);
         return Ok(ApiResponse<ProjectResponse>.Ok(response));
+    }
+
+    [HttpPost("{id}/upload")]
+    public async Task<IActionResult> Upload(int id, IFormFile file)
+    {
+        var project = await _context.Projects.FindAsync(id);
+        if (project == null)
+            return NotFound(ApiResponse<object>.Fail("项目不存在"));
+
+        if (file == null || file.Length == 0)
+            return BadRequest(ApiResponse<object>.Fail("请选择要上传的文件"));
+
+        if (!_documentParseService.IsSupportedFileType(file.FileName))
+            return BadRequest(ApiResponse<object>.Fail("不支持的文件格式，仅支持PDF、MD、DOC、DOCX"));
+
+        var result = await _documentParseService.ParseAndSaveAsync(file);
+
+        var document = new UploadedDocument
+        {
+            ProjectId = id,
+            FileName = result.FileName,
+            FileType = result.FileType,
+            FilePath = result.FilePath,
+            ParsedContent = result.ParsedContent,
+            UploadedAt = DateTime.UtcNow
+        };
+
+        _context.UploadedDocuments.Add(document);
+        await _context.SaveChangesAsync();
+
+        var response = new UploadedDocumentResponse
+        {
+            Id = document.Id,
+            ProjectId = document.ProjectId,
+            FileName = document.FileName,
+            FileType = document.FileType,
+            ParsedContent = document.ParsedContent,
+            UploadedAt = document.UploadedAt
+        };
+
+        return Ok(ApiResponse<UploadedDocumentResponse>.Ok(response));
+    }
+
+    [HttpGet("{id}/strategy")]
+    public async Task<IActionResult> GetStrategy(int id)
+    {
+        var project = await _context.Projects.FindAsync(id);
+        if (project == null)
+            return NotFound(ApiResponse<object>.Fail("项目不存在"));
+
+        var strategy = await _context.Strategies
+            .FirstOrDefaultAsync(s => s.ProjectId == id);
+
+        if (strategy == null)
+            return NotFound(ApiResponse<object>.Fail("该项目暂无策略数据"));
+
+        var response = new StrategyResponse
+        {
+            Id = strategy.Id,
+            ProjectId = strategy.ProjectId,
+            Positioning = DeserializeJson(strategy.Positioning),
+            SkuPlan = DeserializeJson(strategy.SkuPlan),
+            Packaging = DeserializeJson(strategy.Packaging),
+            Pricing = DeserializeJson(strategy.Pricing),
+            Channels = DeserializeJson(strategy.Channels),
+            Roadmap = DeserializeJson(strategy.Roadmap),
+            CreatedAt = strategy.CreatedAt
+        };
+
+        return Ok(ApiResponse<StrategyResponse>.Ok(response));
+    }
+
+    private static object? DeserializeJson(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return null;
+
+        try
+        {
+            return System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(json);
+        }
+        catch
+        {
+            return json;
+        }
     }
 }

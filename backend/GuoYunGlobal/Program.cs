@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using GuoYunGlobal.Data;
 using GuoYunGlobal.Services.Demo;
+using GuoYunGlobal.Services.Document;
+using GuoYunGlobal.Services.Marketing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,8 @@ builder.Services.AddControllers()
 
 // Services
 builder.Services.AddScoped<DemoDataService>();
+builder.Services.AddScoped<DocumentParseService>();
+builder.Services.AddScoped<MarketingContentService>();
 
 // OpenAPI
 builder.Services.AddOpenApi();
