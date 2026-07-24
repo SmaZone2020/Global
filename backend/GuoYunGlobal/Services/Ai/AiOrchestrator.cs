@@ -119,4 +119,11 @@ public class AiOrchestrator
             return "";
         }
     }
+
+    public async Task<string> GenerateProductInfoAsync(string brandName, string productName, CancellationToken ct = default)
+    {
+        var system = PromptTemplates.ProductInfoGenerate;
+        var user = $"品牌名称：{brandName}\n产品名称：{productName}";
+        return await _llm.ChatAsync(system, user, ct);
+    }
 }

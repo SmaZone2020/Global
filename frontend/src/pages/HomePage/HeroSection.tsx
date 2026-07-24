@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Loader2, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Loader2, ChevronRight, Wand2, X } from 'lucide-react'
 import { projectApi } from '@/services/api'
 import { useProjectStore } from '@/stores/projectStore'
 import GoldParticles from '@/components/shared/GoldParticles'
@@ -12,6 +12,10 @@ export default function HeroSection() {
   const { setCurrentProject } = useProjectStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showQuickCreate, setShowQuickCreate] = useState(false)
+  const [quickBrand, setQuickBrand] = useState('')
+  const [quickProduct, setQuickProduct] = useState('')
+  const [quickLoading, setQuickLoading] = useState(false)
 
   const handleDemo = async () => {
     setLoading(true)
@@ -26,6 +30,23 @@ export default function HeroSection() {
       setError(e instanceof Error ? e.message : '初始化演示失败，请重试')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleQuickCreate = async () => {
+    if (!quickBrand.trim() || !quickProduct.trim()) return
+    setQuickLoading(true)
+    setError(null)
+    try {
+      const res = await projectApi.quickCreate(quickBrand.trim(), quickProduct.trim())
+      if (res.success && res.data) {
+        setCurrentProject(res.data)
+        navigate(`/project/${res.data.id}/analysis`)
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '快速创建失败，请重试')
+    } finally {
+      setQuickLoading(false)
     }
   }
 
@@ -178,7 +199,74 @@ export default function HeroSection() {
             上传自己的产品
             <ChevronRight className="w-4 h-4" />
           </GiltButton>
+
+          <GiltButton variant="outline" onClick={() => setShowQuickCreate(true)}>
+            <Wand2 className="w-4 h-4" />
+            AI 快速创建
+          </GiltButton>
         </motion.div>
+
+        {/* Quick Create Inline Form */}
+        <AnimatePresence>
+          {showQuickCreate && (
+            <motion.div
+              className="relative mt-6 w-full max-w-md"
+              initial={{ opacity: 0, y: 10, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -10, height: 0 }}
+            >
+              <div className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-gold/15 via-gold/5 to-gold/10" />
+                <div className="absolute inset-[1px] bg-cream-light" />
+                <div className="relative p-5 space-y-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-medium text-ink">只需两个字段，AI 自动补全</span>
+                    <button
+                      onClick={() => setShowQuickCreate(false)}
+                      className="p-1 text-ink/30 hover:text-ink/60 cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    value={quickBrand}
+                    onChange={(e) => setQuickBrand(e.target.value)}
+                    placeholder="品牌名称，如：西湖龙井"
+                    className="w-full px-4 py-2.5 text-sm bg-cream border border-ink/8
+                               text-ink placeholder:text-ink/30 focus:outline-none focus:border-gold/40"
+                  />
+                  <input
+                    type="text"
+                    value={quickProduct}
+                    onChange={(e) => setQuickProduct(e.target.value)}
+                    placeholder="产品名称，如：明前特级龙井茶"
+                    className="w-full px-4 py-2.5 text-sm bg-cream border border-ink/8
+                               text-ink placeholder:text-ink/30 focus:outline-none focus:border-gold/40"
+                  />
+                  <motion.button
+                    onClick={handleQuickCreate}
+                    disabled={quickLoading || !quickBrand.trim() || !quickProduct.trim()}
+                    className="group relative w-full flex items-center justify-center gap-2
+                               px-6 py-2.5 text-sm font-semibold overflow-hidden
+                               cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-gold-dark via-gold to-gold-light" />
+                    <span className="relative z-10 text-ink flex items-center gap-2">
+                      {quickLoading ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" />AI 生成中...</>
+                      ) : (
+                        <><Wand2 className="w-4 h-4" />一键创建并分析</>
+                      )}
+                    </span>
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {error && (
           <motion.p

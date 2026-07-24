@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using GuoYunGlobal.Data;
 using GuoYunGlobal.Models.Dtos;
 using GuoYunGlobal.Models.Entities;
@@ -104,6 +105,93 @@ public class ProjectController : ControllerBase
             .FirstAsync(p => p.Id == project.Id);
 
         var response = ProjectResponse.FromEntity(fullProject);
+        return StatusCode(201, ApiResponse<ProjectResponse>.Ok(response));
+    }
+
+    [HttpPost("quickCreate")]
+    public async Task<IActionResult> QuickCreate([FromBody] QuickCreateRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.BrandName))
+            return BadRequest(ApiResponse<object>.Fail("品牌名称不能为空"));
+        if (string.IsNullOrWhiteSpace(request.ProductName))
+            return BadRequest(ApiResponse<object>.Fail("产品名称不能为空"));
+
+        string origin = "", history = "", brandVoice = "", prohibitedClaims = "";
+        int? establishedYear = null;
+        string category = "", sku = "", specs = "", ingredients = "", process = "";
+        decimal? domesticPrice = null;
+
+        try
+        {
+            var aiJson = await _ai.GenerateProductInfoAsync(request.BrandName, request.ProductName);
+            using var doc = JsonDocument.Parse(aiJson);
+            var root = doc.RootElement;
+
+            if (root.TryGetProperty("brand", out var b))
+            {
+                origin = b.TryGetProperty("origin", out var v) ? v.GetString() ?? "" : "";
+                history = b.TryGetProperty("history", out v) ? v.GetString() ?? "" : "";
+                brandVoice = b.TryGetProperty("brandVoice", out v) ? v.GetString() ?? "" : "";
+                prohibitedClaims = b.TryGetProperty("prohibitedClaims", out v) ? v.GetString() ?? "" : "";
+                establishedYear = b.TryGetProperty("establishedYear", out v) && v.ValueKind == JsonValueKind.Number
+                    ? v.GetInt32() : null;
+            }
+
+            if (root.TryGetProperty("product", out var p))
+            {
+                category = p.TryGetProperty("category", out var v) ? v.GetString() ?? "" : "";
+                sku = p.TryGetProperty("sku", out v) ? v.GetString() ?? "" : "";
+                specs = p.TryGetProperty("specs", out v) ? v.GetString() ?? "" : "";
+                ingredients = p.TryGetProperty("ingredients", out v) ? v.GetString() ?? "" : "";
+                process = p.TryGetProperty("process", out v) ? v.GetString() ?? "" : "";
+                domesticPrice = p.TryGetProperty("domesticPrice", out v) && v.ValueKind == JsonValueKind.Number
+                    ? v.GetDecimal() : null;
+            }
+        }
+        catch { /* AI 返回格式异常或调用失败，使用空值继续创建 */ }
+
+        var project = new Project
+        {
+            Name = $"{request.BrandName} 出海项目",
+            Status = ProjectStatus.Draft,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        _context.Projects.Add(project);
+        await _context.SaveChangesAsync();
+
+        var brand = new Brand
+        {
+            ProjectId = project.Id,
+            Name = request.BrandName,
+            Origin = origin,
+            History = history,
+            BrandVoice = brandVoice,
+            ProhibitedClaims = prohibitedClaims,
+            EstablishedYear = establishedYear
+        };
+        _context.Brands.Add(brand);
+        await _context.SaveChangesAsync();
+
+        var product = new Product
+        {
+            BrandId = brand.Id,
+            Name = request.ProductName,
+            Category = category,
+            Sku = sku,
+            Specs = specs,
+            Ingredients = ingredients,
+            Process = process,
+            DomesticPrice = domesticPrice,
+            ImageUrl = ""
+        };
+        _context.Products.Add(product);
+        await _context.SaveChangesAsync();
+
+        project.Brand = brand;
+        brand.Products = new List<Product> { product };
+
+        var response = ProjectResponse.FromEntity(project);
         return StatusCode(201, ApiResponse<ProjectResponse>.Ok(response));
     }
 

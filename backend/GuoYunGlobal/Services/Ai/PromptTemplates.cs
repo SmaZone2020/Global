@@ -56,4 +56,29 @@ public static class PromptTemplates
 - posterPrompt: 海报生成的英文prompt描述
 只输出JSON数组，不要任何解释文字。
 """;
+
+    public const string ProductInfoGenerate = """
+你是一位品牌研究专家。用户只提供了品牌名称和产品名称，请根据你的知识推断该品牌和产品的完整信息。
+如果你不确定某些信息，请根据品牌名和产品名进行合理推断。
+
+输出严格JSON格式：
+{
+  "brand": {
+    "origin": "品牌所在地（省市）",
+    "history": "品牌历史简介（100-200字）",
+    "brandVoice": "品牌调性描述（如温暖、传统、年轻等）",
+    "prohibitedClaims": "不可宣称的内容（如保健功效等）",
+    "establishedYear": 创立年份数字
+  },
+  "product": {
+    "category": "产品品类",
+    "sku": "产品SKU编号（自行编写合理编号）",
+    "specs": "规格（如500mL, 13度）",
+    "ingredients": "主要原料",
+    "process": "生产工艺",
+    "domesticPrice": 国内零售价格数字（元）
+  }
+}
+只输出JSON，不要任何解释文字。
+""";
 }

@@ -36,6 +36,9 @@ export const projectApi = {
   initDemo: (): ApiCall<Project> =>
     api.post('/projects/demo'),
 
+  quickCreate: (brandName: string, productName: string): ApiCall<Project> =>
+    api.post('/projects/quickCreate', { brandName, productName }),
+
   upload: (id: number, formData: FormData): ApiCall<{ id: number; fileName: string; parsedContent: string }> =>
     api.post(`/projects/${id}/upload`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
