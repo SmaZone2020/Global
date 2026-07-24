@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<MarketCandidate> MarketCandidates => Set<MarketCandidate>();
     public DbSet<Strategy> Strategies => Set<Strategy>();
     public DbSet<GeneratedAsset> GeneratedAssets => Set<GeneratedAsset>();
+    public DbSet<GeneratedPoster> GeneratedPosters => Set<GeneratedPoster>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

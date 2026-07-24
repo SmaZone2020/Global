@@ -158,3 +158,21 @@ export interface MarketingRequest {
   style: string
   audience: string
 }
+
+export interface GeneratedPoster {
+  id: number
+  projectId: number
+  styleKey: string
+  styleLabel: string
+  finalPrompt: string
+  imageUrl: string
+  status: string
+  createdAt: string
+}
+
+export interface PosterPresetInfo {
+  key: string
+  label: string
+  description: string
+  previewKeywords: string[]
+}

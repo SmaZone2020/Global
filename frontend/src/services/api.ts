@@ -6,6 +6,8 @@ import type {
   AnalysisResult,
   Strategy,
   GeneratedAsset,
+  GeneratedPoster,
+  PosterPresetInfo,
   MarketingRequest,
 } from '@/types'
 
@@ -63,8 +65,14 @@ export const projectApi = {
   getMarketing: (id: number): ApiCall<GeneratedAsset[]> =>
     api.get(`/projects/${id}/marketing`),
 
-  generatePoster: (id: number, data: { scene: string; style: string; audience: string }): ApiCall<{ id: number; imageUrl: string; prompt: string }> =>
+  generatePoster: (id: number, data: { styleKey: string; customPrompt: string }): ApiCall<GeneratedPoster> =>
     api.post(`/projects/${id}/poster`, data),
+
+  getPosters: (id: number): ApiCall<GeneratedPoster[]> =>
+    api.get(`/projects/${id}/posters`),
+
+  getPosterPresets: (): ApiCall<PosterPresetInfo[]> =>
+    api.get('/projects/poster/presets'),
 
   getReport: (id: number): ApiCall<any> =>
     api.get(`/projects/${id}/report`),
