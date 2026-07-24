@@ -67,10 +67,14 @@ public class OpenAiImageProvider : IImageProvider
             throw new HttpRequestException($"Image API returned {response.StatusCode}");
         }
 
-        var fullContent = await ReadSseContentAsync(response, ct);
+        var rawBody = await response.Content.ReadAsStringAsync(ct);
+        _logger.LogInformation("[IMG] RAW body={Body}",
+            rawBody[..Math.Min(1000, rawBody.Length)]);
 
-        _logger.LogInformation("[IMG] SSE content={Content}",
-            fullContent[..Math.Min(500, fullContent.Length)]);
+        var fullContent = ParseSseContent(rawBody);
+
+        _logger.LogInformation("[IMG] SSE parsed content={Content}",
+            fullContent.Length > 0 ? fullContent[..Math.Min(500, fullContent.Length)] : "(empty)");
 
         var match = ImageUrlRegex.Match(fullContent);
         if (!match.Success)
@@ -79,21 +83,16 @@ public class OpenAiImageProvider : IImageProvider
         return match.Groups[1].Value;
     }
 
-    private static async Task<string> ReadSseContentAsync(
-        HttpResponseMessage response, CancellationToken ct)
+    private static string ParseSseContent(string rawBody)
     {
         var sb = new StringBuilder();
-        using var stream = await response.Content.ReadAsStreamAsync(ct);
-        using var reader = new StreamReader(stream, Encoding.UTF8);
 
-        while (!ct.IsCancellationRequested)
+        foreach (var line in rawBody.Split('\n'))
         {
-            var line = await reader.ReadLineAsync(ct);
-            if (line == null) break;
-            if (line == null) break;
-            if (!line.StartsWith("data: ")) continue;
+            var trimmed = line.TrimEnd('\r');
+            if (!trimmed.StartsWith("data: ")) continue;
 
-            var data = line["data: ".Length..];
+            var data = trimmed["data: ".Length..];
             if (data == "[DONE]") break;
 
             try
