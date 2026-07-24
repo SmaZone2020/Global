@@ -4,6 +4,7 @@ using GuoYunGlobal.Data;
 using GuoYunGlobal.Models.Dtos;
 using GuoYunGlobal.Models.Entities;
 using GuoYunGlobal.Services.Ai;
+using GuoYunGlobal.Services.ImageBed;
 
 namespace GuoYunGlobal.Controllers;
 
@@ -13,12 +14,18 @@ public class PosterController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly AiOrchestrator _ai;
+    private readonly IImageBedService _imageBed;
     private readonly ILogger<PosterController> _logger;
 
-    public PosterController(AppDbContext context, AiOrchestrator ai, ILogger<PosterController> logger)
+    public PosterController(
+        AppDbContext context,
+        AiOrchestrator ai,
+        IImageBedService imageBed,
+        ILogger<PosterController> logger)
     {
         _context = context;
         _ai = ai;
+        _imageBed = imageBed;
         _logger = logger;
     }
 
@@ -58,7 +65,7 @@ public class PosterController : ControllerBase
         var productName = project.Brand?.Products?.FirstOrDefault()?.Name ?? project.Name;
 
         var finalPrompt = PosterPresets.BuildPrompt(
-            request.StyleKey, brandName, productName, request.CustomPrompt);
+            request.StyleKey, brandName, productName, request.CustomPrompt, request.ReferenceImageUrl);
 
         var poster = new GeneratedPoster
         {
@@ -82,6 +89,18 @@ public class PosterController : ControllerBase
 
         var response = MapToResponse(poster);
         return Ok(ApiResponse<GeneratedPosterResponse>.Ok(response));
+    }
+
+    [HttpPost("{id}/poster/uploadRef")]
+    public async Task<IActionResult> UploadRefImage(int id, IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest(ApiResponse<object>.Fail("请选择图片文件"));
+
+        using var stream = file.OpenReadStream();
+        var url = await _imageBed.UploadAsync(stream, file.FileName);
+
+        return Ok(ApiResponse<object>.Ok(new { url }));
     }
 
     [HttpGet("{id}/posters")]

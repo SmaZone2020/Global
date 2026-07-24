@@ -68,8 +68,13 @@ export const projectApi = {
   getMarketing: (id: number): ApiCall<GeneratedAsset[]> =>
     api.get(`/projects/${id}/marketing`),
 
-  generatePoster: (id: number, data: { styleKey: string; customPrompt: string }): ApiCall<GeneratedPoster> =>
+  generatePoster: (id: number, data: { styleKey: string; customPrompt: string; referenceImageUrl?: string }): ApiCall<GeneratedPoster> =>
     api.post(`/projects/${id}/poster`, data),
+
+  uploadPosterRef: (id: number, formData: FormData): ApiCall<{ url: string }> =>
+    api.post(`/projects/${id}/poster/uploadRef`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
 
   getPosters: (id: number): ApiCall<GeneratedPoster[]> =>
     api.get(`/projects/${id}/posters`),

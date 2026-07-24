@@ -46,6 +46,10 @@ export default function PosterTab({ projectId }: Props) {
   const [customPrompt, setCustomPrompt] = useState('')
   const [generating, setGenerating] = useState(false)
   const [posters, setPosters] = useState<GeneratedPoster[]>([])
+  const [refMode, setRefMode] = useState<'url' | 'upload'>('upload')
+  const [refUrl, setRefUrl] = useState('')
+  const [refUploading, setRefUploading] = useState(false)
+  const [refPreview, setRefPreview] = useState('')
 
   const fetchPosters = useCallback(async () => {
     try {
@@ -62,12 +66,34 @@ export default function PosterTab({ projectId }: Props) {
       const res = await projectApi.generatePoster(projectId, {
         styleKey: selectedStyle,
         customPrompt,
+        referenceImageUrl: refUrl || undefined,
       })
       if (res.success && res.data) {
         setPosters((prev) => [res.data!, ...prev])
       }
     } catch { /* ignore */ }
     setGenerating(false)
+  }
+
+  const handleRefFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setRefPreview(URL.createObjectURL(file))
+    setRefUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await projectApi.uploadPosterRef(projectId, formData)
+      if (res.success && res.data) {
+        setRefUrl(res.data.url)
+      }
+    } catch { /* ignore */ }
+    setRefUploading(false)
+  }
+
+  const clearRef = () => {
+    setRefUrl('')
+    setRefPreview('')
   }
 
   return (
@@ -107,6 +133,69 @@ export default function PosterTab({ projectId }: Props) {
                          text-ink placeholder:text-ink/30 resize-none h-20
                          focus:outline-none focus:border-gold/40 transition-colors"
             />
+          </div>
+
+          {/* Reference Image */}
+          <div>
+            <label className="text-xs text-ink/40 mb-2 block">产品参考图（可选，作为海报中的产品图）</label>
+            <div className="flex gap-2 mb-3">
+              <button
+                onClick={() => setRefMode('upload')}
+                className={`px-3 py-1 text-xs cursor-pointer transition-colors ${
+                  refMode === 'upload' ? 'bg-chi/10 text-chi border-chi/30' : 'bg-cream border-ink/8 text-ink/50'
+                } border`}
+              >
+                本地上传
+              </button>
+              <button
+                onClick={() => setRefMode('url')}
+                className={`px-3 py-1 text-xs cursor-pointer transition-colors ${
+                  refMode === 'url' ? 'bg-chi/10 text-chi border-chi/30' : 'bg-cream border-ink/8 text-ink/50'
+                } border`}
+              >
+                图片URL
+              </button>
+            </div>
+
+            {refMode === 'url' ? (
+              <input
+                type="text"
+                value={refUrl}
+                onChange={(e) => { setRefUrl(e.target.value); setRefPreview(e.target.value) }}
+                placeholder="输入公网图片URL，如 https://..."
+                className="w-full px-4 py-2 text-sm bg-cream border border-ink/8
+                           text-ink placeholder:text-ink/30
+                           focus:outline-none focus:border-gold/40 transition-colors"
+              />
+            ) : (
+              <div className="flex items-center gap-3">
+                <label className="px-4 py-2 text-sm bg-cream border border-ink/8
+                                  text-ink/60 hover:border-gold/40 cursor-pointer transition-colors">
+                  {refUploading ? '上传中...' : '选择图片'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleRefFileChange}
+                    className="hidden"
+                    disabled={refUploading}
+                  />
+                </label>
+                {refUrl && <span className="text-xs text-verified">已上传</span>}
+              </div>
+            )}
+
+            {refPreview && (
+              <div className="mt-3 relative inline-block">
+                <img src={refPreview} alt="参考图预览" className="h-24 object-contain border border-ink/8" />
+                <button
+                  onClick={clearRef}
+                  className="absolute -top-2 -right-2 w-5 h-5 bg-ink/60 text-cream
+                             text-xs flex items-center justify-center cursor-pointer hover:bg-ink/80"
+                >
+                  ×
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Generate Button */}

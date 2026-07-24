@@ -62,14 +62,19 @@ public static class PosterPresets
     public static PosterPreset? Get(string key) =>
         All.FirstOrDefault(p => p.Key == key);
 
-    public static string BuildPrompt(string key, string brandName, string productName, string customPrompt)
+    public static string BuildPrompt(string key, string brandName, string productName, string customPrompt, string referenceImageUrl = "")
     {
         var preset = Get(key);
         var base_ = preset?.BasePrompt ?? customPrompt;
         var productContext = $" Product: {productName} by {brandName}.";
 
-        return string.IsNullOrWhiteSpace(customPrompt)
+        var result = string.IsNullOrWhiteSpace(customPrompt)
             ? base_ + productContext
             : $"{base_} Additional requirements: {customPrompt}.{productContext}";
+
+        if (!string.IsNullOrWhiteSpace(referenceImageUrl))
+            result += $" Use the product image from this URL as the main product in the poster: {referenceImageUrl}";
+
+        return result;
     }
 }

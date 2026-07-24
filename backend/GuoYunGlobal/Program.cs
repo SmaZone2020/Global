@@ -7,6 +7,7 @@ using GuoYunGlobal.Services.Ai.Options;
 using GuoYunGlobal.Services.Ai.Providers;
 using GuoYunGlobal.Services.Demo;
 using GuoYunGlobal.Services.Document;
+using GuoYunGlobal.Services.ImageBed;
 using GuoYunGlobal.Services.Marketing;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,7 @@ builder.Services.Configure<LlmOptions>(builder.Configuration.GetSection("Llm"));
 builder.Services.Configure<ImageGenOptions>(builder.Configuration.GetSection("ImageGen"));
 builder.Services.AddHttpClient<ILlmProvider, OpenAiCompatibleProvider>();
 builder.Services.AddHttpClient<IImageProvider, OpenAiImageProvider>();
+builder.Services.AddHttpClient<IImageBedService, MhImgBedService>();
 builder.Services.AddScoped<AiOrchestrator>();
 
 // Business Services

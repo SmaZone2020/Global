@@ -9,6 +9,9 @@ public class GeneratePosterRequest
 
     [JsonPropertyName("customPrompt")]
     public string CustomPrompt { get; set; } = string.Empty;
+
+    [JsonPropertyName("referenceImageUrl")]
+    public string ReferenceImageUrl { get; set; } = string.Empty;
 }
 
 public class GeneratedPosterResponse
