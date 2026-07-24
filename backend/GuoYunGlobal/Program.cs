@@ -2,6 +2,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using GuoYunGlobal.Data;
+using GuoYunGlobal.Services.Ai;
+using GuoYunGlobal.Services.Ai.Options;
+using GuoYunGlobal.Services.Ai.Providers;
 using GuoYunGlobal.Services.Demo;
 using GuoYunGlobal.Services.Document;
 using GuoYunGlobal.Services.Marketing;
@@ -31,7 +34,14 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
     });
 
-// Services
+// AI Services
+builder.Services.Configure<LlmOptions>(builder.Configuration.GetSection("Llm"));
+builder.Services.Configure<ImageGenOptions>(builder.Configuration.GetSection("ImageGen"));
+builder.Services.AddHttpClient<ILlmProvider, OpenAiCompatibleProvider>();
+builder.Services.AddHttpClient<IImageProvider, OpenAiImageProvider>();
+builder.Services.AddScoped<AiOrchestrator>();
+
+// Business Services
 builder.Services.AddScoped<DemoDataService>();
 builder.Services.AddScoped<DocumentParseService>();
 builder.Services.AddScoped<MarketingContentService>();

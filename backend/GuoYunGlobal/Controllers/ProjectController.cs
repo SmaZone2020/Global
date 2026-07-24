@@ -4,6 +4,7 @@ using GuoYunGlobal.Data;
 using GuoYunGlobal.Models.Dtos;
 using GuoYunGlobal.Models.Entities;
 using GuoYunGlobal.Models.Enums;
+using GuoYunGlobal.Services.Ai;
 using GuoYunGlobal.Services.Demo;
 using GuoYunGlobal.Services.Document;
 
@@ -16,15 +17,18 @@ public class ProjectController : ControllerBase
     private readonly AppDbContext _context;
     private readonly DemoDataService _demoDataService;
     private readonly DocumentParseService _documentParseService;
+    private readonly AiOrchestrator _ai;
 
     public ProjectController(
         AppDbContext context,
         DemoDataService demoDataService,
-        DocumentParseService documentParseService)
+        DocumentParseService documentParseService,
+        AiOrchestrator ai)
     {
         _context = context;
         _demoDataService = demoDataService;
         _documentParseService = documentParseService;
+        _ai = ai;
     }
 
     [HttpPost]
@@ -170,15 +174,18 @@ public class ProjectController : ControllerBase
         if (existing != null)
             _context.Strategies.Remove(existing);
 
+        var analysisResults = await _context.AnalysisResults.Where(a => a.ProjectId == id).ToListAsync();
+        var analysisContext = string.Join("\n\n", analysisResults.Select(a => $"[{a.Type}]\n{a.Content}"));
+
         var strategy = new Strategy
         {
             ProjectId = id,
-            Positioning = DemoStrategyData.GetPositioning(),
-            SkuPlan = DemoStrategyData.GetSkuPlan(),
-            Packaging = DemoStrategyData.GetPackaging(),
-            Pricing = DemoStrategyData.GetPricing(),
-            Channels = DemoStrategyData.GetChannels(),
-            Roadmap = DemoStrategyData.GetRoadmap(),
+            Positioning = await _ai.GenerateStrategyAsync(analysisContext, "positioning"),
+            SkuPlan = await _ai.GenerateStrategyAsync(analysisContext, "skuPlan"),
+            Packaging = await _ai.GenerateStrategyAsync(analysisContext, "packaging"),
+            Pricing = await _ai.GenerateStrategyAsync(analysisContext, "pricing"),
+            Channels = await _ai.GenerateStrategyAsync(analysisContext, "channels"),
+            Roadmap = await _ai.GenerateStrategyAsync(analysisContext, "roadmap"),
             CreatedAt = DateTime.UtcNow
         };
 
