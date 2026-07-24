@@ -52,7 +52,7 @@ public class OpenAiCompatibleProvider : ILlmProvider
 
         _logger.LogInformation("LLM request to {Model}, messages: {Count}", _options.Model, messages.Count);
 
-        var response = await _http.PostAsync("v1/chat/completions", content, ct);
+        var response = await _http.PostAsync("chat/completions", content, ct);
         var responseBody = await response.Content.ReadAsStringAsync(ct);
 
         if (!response.IsSuccessStatusCode)

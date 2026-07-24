@@ -41,6 +41,7 @@ export default function HeroSection() {
       const res = await projectApi.quickCreate(quickBrand.trim(), quickProduct.trim())
       if (res.success && res.data) {
         setCurrentProject(res.data)
+        await projectApi.analyze(res.data.id)
         navigate(`/project/${res.data.id}/analysis`)
       }
     } catch (e) {
