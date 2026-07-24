@@ -15,7 +15,7 @@ interface BrandStepProps {
 }
 
 const inputClass =
-  'w-full bg-ink-lighter border-none rounded-lg px-4 py-3 text-snow placeholder-snow/30 ' +
+  'w-full bg-cream-dark/40 border border-ink/8 px-4 py-3 text-ink placeholder-ink/25 ' +
   'focus:outline-none focus:ring-2 focus:ring-gold/50 transition-shadow'
 
 export default function BrandStep({ data, onChange }: BrandStepProps) {
@@ -27,11 +27,11 @@ export default function BrandStep({ data, onChange }: BrandStepProps) {
       exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="text-xl font-semibold text-snow">品牌信息</h3>
+      <h3 className="text-xl font-semibold text-ink">品牌信息</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">
+          <label className="block text-sm text-ink/60 mb-1.5">
             品牌名称 <span className="text-unverified">*</span>
           </label>
           <input
@@ -43,7 +43,7 @@ export default function BrandStep({ data, onChange }: BrandStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">成立年份</label>
+          <label className="block text-sm text-ink/60 mb-1.5">成立年份</label>
           <input
             className={inputClass}
             type="number"
@@ -56,7 +56,7 @@ export default function BrandStep({ data, onChange }: BrandStepProps) {
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm text-snow/60 mb-1.5">品牌所在地</label>
+          <label className="block text-sm text-ink/60 mb-1.5">品牌所在地</label>
           <input
             className={inputClass}
             placeholder="例如 福建省福州市"
@@ -66,7 +66,7 @@ export default function BrandStep({ data, onChange }: BrandStepProps) {
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm text-snow/60 mb-1.5">品牌介绍</label>
+          <label className="block text-sm text-ink/60 mb-1.5">品牌介绍</label>
           <textarea
             className={`${inputClass} min-h-[100px] resize-y`}
             placeholder="品牌的历史、故事和文化背景"
@@ -76,7 +76,7 @@ export default function BrandStep({ data, onChange }: BrandStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">品牌语气</label>
+          <label className="block text-sm text-ink/60 mb-1.5">品牌语气</label>
           <input
             className={inputClass}
             placeholder="例如 温暖、传统、有文化底蕴"
@@ -86,7 +86,7 @@ export default function BrandStep({ data, onChange }: BrandStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">禁用表达</label>
+          <label className="block text-sm text-ink/60 mb-1.5">禁用表达</label>
           <input
             className={inputClass}
             placeholder="例如 不可宣称保健功效"

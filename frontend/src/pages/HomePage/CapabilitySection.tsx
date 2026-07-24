@@ -57,12 +57,12 @@ export default function CapabilitySection() {
                 <GiltCard>
                   <div className="p-8">
                     <div className="relative w-14 h-14 mb-6">
-                      <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-gold/5 group-hover:from-gold/30 group-hover:to-gold/10 transition-all duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-chi/15 to-chi/5 group-hover:from-chi/25 group-hover:to-chi/10 transition-all duration-500" />
                       <div className="absolute inset-[1px] bg-cream flex items-center justify-center">
-                        <Icon className="w-6 h-6 text-gold-dark group-hover:text-chi transition-colors duration-300" />
+                        <Icon className="w-6 h-6 text-chi group-hover:text-xuan transition-colors duration-300" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-serif font-medium text-ink mb-1 group-hover:text-chi transition-colors duration-300">
+                    <h3 className="text-lg font-serif font-medium text-xuan mb-1 group-hover:text-chi transition-colors duration-300">
                       {cap.title}
                     </h3>
                     <p className="text-[10px] text-chi/25 tracking-wider uppercase mb-4">{cap.subtitle}</p>

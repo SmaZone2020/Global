@@ -1,3 +1,9 @@
+export interface ApiResponse<T> {
+  success: boolean
+  data: T | null
+  message: string | null
+}
+
 export type ProjectStatus = 'draft' | 'analyzing' | 'awaitingConfirm' | 'strategyReady' | 'assetsReady' | 'exported'
 export type AnalysisType = 'product' | 'culture' | 'market'
 export type AssetStatus = 'generated' | 'edited' | 'approved'
@@ -73,15 +79,41 @@ export interface DimensionScores {
   economics: number
 }
 
+export interface StrategyPositioning {
+  targetCountry: string
+  coreAudience: string
+  categoryReference: string
+  differentiation: string
+}
+
+export interface SkuPlanItem {
+  name: string
+  role: string
+  reason: string
+}
+
+export interface PricingRange {
+  tier: string
+  range: string
+  channel: string
+}
+
+export interface RoadmapPhase {
+  period: string
+  title: string
+  actions: string[]
+  metrics: string[]
+}
+
 export interface Strategy {
   id: number
   projectId: number
-  positioning: string
-  skuPlan: any
-  packaging: any
-  pricing: any
-  channels: any
-  roadmap: any
+  positioning: StrategyPositioning
+  skuPlan: { primary: SkuPlanItem; test: SkuPlanItem; premium: SkuPlanItem }
+  packaging: { volume: string; labelInfo: string[]; visualDirection: string }
+  pricing: { strategy: string; ranges: PricingRange[]; costAssumptions: string }
+  channels: { priority: { channel: string; cities: string[]; action: string }[] }
+  roadmap: { phase1: RoadmapPhase; phase2: RoadmapPhase; phase3: RoadmapPhase }
   createdAt: string
 }
 

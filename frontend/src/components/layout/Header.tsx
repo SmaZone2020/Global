@@ -19,13 +19,13 @@ export default function Header() {
   const { currentProject } = useProjectStore()
 
   return (
-    <header className="border-b border-ink-lighter/30 bg-ink/80 backdrop-blur-md sticky top-0 z-50">
+    <header className="border-b border-ink/8 bg-cream/80 backdrop-blur-md sticky top-0 z-50">
       <div className="mx-auto max-w-[1280px] px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 no-underline">
-          <span className="text-gold text-xl font-bold tracking-wide">
+        <Link to="/" className="flex items-center gap-2.5 no-underline">
+          <span className="text-chi text-xl font-bold tracking-wide font-serif">
             国韵
           </span>
-          <span className="text-snow/80 text-sm font-medium">Global</span>
+          <span className="text-ink/40 text-xs font-serif italic tracking-wider">Global</span>
         </Link>
 
         <nav className="flex items-center gap-6">
@@ -36,8 +36,8 @@ export default function Header() {
               className={cn(
                 'text-sm no-underline transition-colors',
                 location.pathname === item.path
-                  ? 'text-gold font-medium'
-                  : 'text-snow/60 hover:text-snow'
+                  ? 'text-chi font-medium'
+                  : 'text-ink/50 hover:text-ink'
               )}
             >
               {item.label}
@@ -46,7 +46,7 @@ export default function Header() {
 
           {currentProject && (
             <>
-              <span className="w-px h-4 bg-ink-lighter/50" />
+              <span className="w-px h-4 bg-ink/15" />
               {projectSteps.map((step) => {
                 const path = `/project/${currentProject.id}/${step.step}`
                 const isActive = location.pathname === path
@@ -57,8 +57,8 @@ export default function Header() {
                     className={cn(
                       'text-sm no-underline transition-colors',
                       isActive
-                        ? 'text-gold font-medium'
-                        : 'text-snow/40 hover:text-snow/70'
+                        ? 'text-chi font-medium'
+                        : 'text-ink/35 hover:text-ink/70'
                     )}
                   >
                     {step.label}

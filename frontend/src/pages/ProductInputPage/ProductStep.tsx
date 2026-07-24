@@ -17,7 +17,7 @@ interface ProductStepProps {
 }
 
 const inputClass =
-  'w-full bg-ink-lighter border-none rounded-lg px-4 py-3 text-snow placeholder-snow/30 ' +
+  'w-full bg-cream-dark/40 border border-ink/8 px-4 py-3 text-ink placeholder-ink/25 ' +
   'focus:outline-none focus:ring-2 focus:ring-gold/50 transition-shadow'
 
 export default function ProductStep({ data, onChange }: ProductStepProps) {
@@ -29,11 +29,11 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
       exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="text-xl font-semibold text-snow">产品信息</h3>
+      <h3 className="text-xl font-semibold text-ink">产品信息</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">
+          <label className="block text-sm text-ink/60 mb-1.5">
             产品名称 <span className="text-unverified">*</span>
           </label>
           <input
@@ -45,7 +45,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">
+          <label className="block text-sm text-ink/60 mb-1.5">
             品类 <span className="text-unverified">*</span>
           </label>
           <input
@@ -57,7 +57,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">SKU编号</label>
+          <label className="block text-sm text-ink/60 mb-1.5">SKU编号</label>
           <input
             className={inputClass}
             placeholder="例如 FJL-500-13"
@@ -67,7 +67,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">规格</label>
+          <label className="block text-sm text-ink/60 mb-1.5">规格</label>
           <input
             className={inputClass}
             placeholder="例如 500mL, 13度"
@@ -77,7 +77,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">原料</label>
+          <label className="block text-sm text-ink/60 mb-1.5">原料</label>
           <input
             className={inputClass}
             placeholder="例如 糯米、红曲、水"
@@ -87,7 +87,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">工艺</label>
+          <label className="block text-sm text-ink/60 mb-1.5">工艺</label>
           <input
             className={inputClass}
             placeholder="例如 红曲酿造、传统发酵"
@@ -97,7 +97,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">国内价格 (元)</label>
+          <label className="block text-sm text-ink/60 mb-1.5">国内价格 (元)</label>
           <input
             className={inputClass}
             type="number"
@@ -110,7 +110,7 @@ export default function ProductStep({ data, onChange }: ProductStepProps) {
         </div>
 
         <div>
-          <label className="block text-sm text-snow/60 mb-1.5">产品图片URL</label>
+          <label className="block text-sm text-ink/60 mb-1.5">产品图片URL</label>
           <input
             className={inputClass}
             placeholder="https://..."

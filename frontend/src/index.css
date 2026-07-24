@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
 @theme {
+  --color-cream: #F5EDE0;
+  --color-cream-light: #FAF6F0;
+  --color-cream-dark: #E8DDD0;
   --color-ink: #1a1a2e;
   --color-ink-light: #2d2d44;
   --color-ink-lighter: #3d3d5c;
+  --color-xuan: #0a0a12;
+  --color-chi: #8B1A2B;
+  --color-chi-light: #C41E3A;
   --color-gold: #c9a96e;
   --color-gold-light: #d4bc8a;
   --color-gold-dark: #b08d4f;
@@ -13,11 +19,55 @@
   --color-public-data: #3b82f6;
   --color-ai-infer: #c9a96e;
   --color-unverified: #ef4444;
-  --font-sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-sans: 'Noto Serif SC', 'Playfair Display', 'STSongti-SC-Regular', 'Songti SC', serif;
+  --font-serif: 'Playfair Display', 'Noto Serif SC', 'STSongti-SC-Regular', 'Songti SC', serif;
   --radius-card: 12px;
 }
 
 body {
-  @apply bg-ink text-snow font-sans antialiased;
+  @apply bg-cream text-ink font-sans antialiased;
   margin: 0;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@keyframes float-ornament {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes gilt-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes ribbon-drift {
+  0% { transform: translateX(-30%) translateY(0%) rotate(-12deg) scaleX(1); }
+  25% { transform: translateX(10%) translateY(-8%) rotate(-8deg) scaleX(1.1); }
+  50% { transform: translateX(30%) translateY(5%) rotate(-15deg) scaleX(0.95); }
+  75% { transform: translateX(-5%) translateY(-3%) rotate(-10deg) scaleX(1.05); }
+  100% { transform: translateX(-30%) translateY(0%) rotate(-12deg) scaleX(1); }
+}
+
+@keyframes ribbon-drift-2 {
+  0% { transform: translateX(20%) translateY(5%) rotate(8deg) scaleX(1); }
+  25% { transform: translateX(-10%) translateY(-5%) rotate(12deg) scaleX(1.08); }
+  50% { transform: translateX(-25%) translateY(8%) rotate(5deg) scaleX(0.92); }
+  75% { transform: translateX(15%) translateY(-2%) rotate(10deg) scaleX(1.03); }
+  100% { transform: translateX(20%) translateY(5%) rotate(8deg) scaleX(1); }
+}
+
+@keyframes ribbon-drift-3 {
+  0% { transform: translateX(0%) translateY(-10%) rotate(-5deg); }
+  33% { transform: translateX(-20%) translateY(5%) rotate(-18deg); }
+  66% { transform: translateX(15%) translateY(-5%) rotate(-8deg); }
+  100% { transform: translateX(0%) translateY(-10%) rotate(-5deg); }
 }

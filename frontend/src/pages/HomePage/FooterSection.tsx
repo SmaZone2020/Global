@@ -1,27 +1,34 @@
 import { motion } from 'framer-motion'
 
-const footerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6 } },
-}
-
 export default function FooterSection() {
   return (
     <motion.footer
-      className="border-t border-ink-lighter/20 py-12 px-6"
-      initial="hidden"
-      whileInView="visible"
+      className="relative py-16 px-6 overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      variants={footerVariants}
+      transition={{ duration: 0.8 }}
     >
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-3">
-        <p className="text-sm text-snow/40">
-          <span className="text-gold/70 font-medium">国韵 Global</span>
-          <span className="mx-2 text-ink-lighter">—</span>
-          AI 赋能中国传统品牌出海
+      <div className="absolute top-0 left-0 right-0">
+        <div className="h-px bg-gradient-to-r from-transparent via-chi/12 to-transparent" />
+        <div className="h-px mt-[2px] bg-gradient-to-r from-transparent via-gold/8 to-transparent" />
+      </div>
+
+      <div className="relative max-w-[1280px] mx-auto flex flex-col items-center gap-5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-px bg-gradient-to-r from-transparent to-chi/20" />
+          <div className="w-1.5 h-1.5 rotate-45 border border-chi/20" />
+          <div className="w-10 h-px bg-gradient-to-l from-transparent to-chi/20" />
+        </div>
+
+        <p className="text-sm text-ink/35">
+          <span className="font-semibold font-serif text-chi/70">国韵 Global</span>
+          <span className="mx-3 text-ink/15">·</span>
+          <span>AI 赋能中国传统品牌出海</span>
         </p>
-        <p className="text-xs text-snow/20">
-          Powered by AI
+
+        <p className="text-xs text-ink/20 tracking-wider">
+          Powered by AI · Made with Heritage
         </p>
       </div>
     </motion.footer>
