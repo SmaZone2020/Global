@@ -17,15 +17,18 @@ public class MarketingController : ControllerBase
     private readonly AppDbContext _context;
     private readonly MarketingContentService _marketingContentService;
     private readonly AiOrchestrator _ai;
+    private readonly ILogger<MarketingController> _logger;
 
     public MarketingController(
         AppDbContext context,
         MarketingContentService marketingContentService,
-        AiOrchestrator ai)
+        AiOrchestrator ai,
+        ILogger<MarketingController> logger)
     {
         _context = context;
         _marketingContentService = marketingContentService;
         _ai = ai;
+        _logger = logger;
     }
 
     [HttpPost("{id}/marketing")]
@@ -53,6 +56,9 @@ public class MarketingController : ControllerBase
 
         var aiContent = await _ai.GenerateMarketingContentAsync(
             brandInfo, strategyContext, request.Channel, request.Style, request.Audience);
+
+        _logger.LogInformation("[Marketing] AI response length={Len} content={Content}",
+            aiContent?.Length ?? 0, aiContent?[..Math.Min(500, aiContent.Length)] ?? "(null)");
 
         if (!string.IsNullOrWhiteSpace(aiContent) && aiContent.StartsWith("["))
         {

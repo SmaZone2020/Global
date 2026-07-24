@@ -103,7 +103,7 @@ public class AiOrchestrator
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Marketing content AI failed, using demo");
-            return "[]";
+            return "";
         }
     }
 
