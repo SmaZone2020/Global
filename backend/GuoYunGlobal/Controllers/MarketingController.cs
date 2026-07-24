@@ -60,18 +60,20 @@ public class MarketingController : ControllerBase
             {
                 var items = JsonSerializer.Deserialize<List<MarketingItem>>(aiContent,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                assets = items?.Select(item => new GeneratedAsset
-                {
-                    ProjectId = id,
-                    Channel = request.Channel,
-                    Style = request.Style,
-                    Audience = request.Audience,
-                    ContentType = item.ContentType ?? "socialPost",
-                    Content = item.Content ?? "",
-                    ImageUrl = "",
-                    Status = AssetStatus.Generated,
-                    CreatedAt = DateTime.UtcNow
-                }).ToList() ?? _marketingContentService.GenerateContent(id, request.Channel, request.Style, request.Audience);
+                assets = items != null && items.Count > 0
+                    ? items.Select(item => new GeneratedAsset
+                    {
+                        ProjectId = id,
+                        Channel = request.Channel,
+                        Style = request.Style,
+                        Audience = request.Audience,
+                        ContentType = item.ContentType ?? "socialPost",
+                        Content = item.Content ?? "",
+                        ImageUrl = "",
+                        Status = AssetStatus.Generated,
+                        CreatedAt = DateTime.UtcNow
+                    }).ToList()
+                    : _marketingContentService.GenerateContent(id, request.Channel, request.Style, request.Audience);
             }
             catch
             {
