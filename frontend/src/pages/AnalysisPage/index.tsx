@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import { projectApi } from '@/services/api'
 import { useProjectStore } from '@/stores/projectStore'
 import type { AnalysisResult } from '@/types'
+import GoldParticles from '@/components/shared/GoldParticles'
 import AnalysisProgress from './AnalysisProgress'
 import ProductTab from './ProductTab'
 import CultureTab from './CultureTab'
@@ -12,9 +13,9 @@ import MarketTab from './MarketTab'
 import CountryConfirmModal from './CountryConfirmModal'
 
 const tabs = [
-  { key: 'product', label: '产品分析' },
-  { key: 'culture', label: '文化解码' },
-  { key: 'market', label: '市场洞察' },
+  { key: 'product', label: '产品分析', subtitle: 'Product' },
+  { key: 'culture', label: '文化解码', subtitle: 'Culture' },
+  { key: 'market', label: '市场洞察', subtitle: 'Market' },
 ] as const
 
 type TabKey = (typeof tabs)[number]['key']
@@ -118,67 +119,112 @@ export default function AnalysisPage() {
   const marketContent = getContent('market')
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-snow">智能分析总览</h2>
+    <div className="relative">
+      <div className="fixed inset-0 pointer-events-none">
+        <GoldParticles count={12} />
+      </div>
+
+      <motion.div
+        className="flex items-center justify-between mb-8"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div>
+          <h2 className="text-2xl font-bold text-ink mb-1 font-serif">智能分析总览</h2>
+          <p className="text-xs text-gold/30 tracking-wider uppercase">AI Analysis Overview</p>
+        </div>
         {currentProject && (
-          <span className="text-snow/40 text-sm">{currentProject.name}</span>
+          <span className="text-ink/40 text-sm border border-gold/10 px-3 py-1 bg-gold/[0.03]">
+            {currentProject.name}
+          </span>
         )}
-      </div>
+      </motion.div>
 
-      {/* Tab Bar */}
-      <div className="flex gap-1 bg-ink-lighter rounded-xl p-1 mb-8">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-              activeTab === tab.key
-                ? 'bg-gold text-ink'
-                : 'text-snow/50 hover:text-snow'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      <motion.div
+        className="relative mb-8"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-gold/10 via-gold/5 to-gold/10" />
+          <div className="absolute inset-[1px] bg-cream-light" />
+          <div className="relative flex gap-1 p-1">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`relative flex-1 py-3 text-sm font-medium transition-all duration-300 cursor-pointer ${
+                  activeTab === tab.key ? 'text-ink' : 'text-ink/40 hover:text-ink/70'
+                }`}
+              >
+                {activeTab === tab.key && (
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-gold-dark via-gold to-gold-light"
+                    layoutId="activeTab"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
+                  />
+                )}
+                <span className="relative z-10">{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </motion.div>
 
-      {/* Tab Content */}
-      {activeTab === 'product' && productContent && (
-        <ProductTab content={productContent} />
-      )}
-      {activeTab === 'culture' && cultureContent && (
-        <CultureTab content={cultureContent} />
-      )}
-      {activeTab === 'market' && marketContent && (
-        <MarketTab
-          content={marketContent}
-          onConfirmMarket={() => setShowModal(true)}
-          marketConfirmed={marketConfirmed}
-        />
-      )}
+      <motion.div
+        key={activeTab}
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        {activeTab === 'product' && productContent && (
+          <ProductTab content={productContent} />
+        )}
+        {activeTab === 'culture' && cultureContent && (
+          <CultureTab content={cultureContent} />
+        )}
+        {activeTab === 'market' && marketContent && (
+          <MarketTab
+            content={marketContent}
+            onConfirmMarket={() => setShowModal(true)}
+            marketConfirmed={marketConfirmed}
+          />
+        )}
+      </motion.div>
 
-      {/* Generate Strategy Button */}
       {marketConfirmed && (
         <motion.div
-          className="mt-10 flex justify-center"
+          className="mt-12 flex justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <motion.button
             onClick={() => navigate(`/project/${projectId}/strategy`)}
-            className="flex items-center gap-2 px-8 py-3.5 bg-gold text-ink font-semibold
-                       rounded-xl text-sm hover:bg-gold-light transition-colors cursor-pointer"
-            whileHover={{ scale: 1.03 }}
+            className="group relative flex items-center gap-3 px-10 py-4 text-sm
+                       font-semibold overflow-hidden cursor-pointer"
+            whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
-            生成出海策略
-            <ArrowRight className="w-4 h-4" />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: 'linear-gradient(135deg, #b08d4f, #c9a96e, #d4bc8a, #c9a96e, #b08d4f)',
+                backgroundSize: '200% 200%',
+                animation: 'shimmer 4s linear infinite',
+              }}
+            />
+            <div className="absolute inset-[1px] bg-gradient-to-r from-gold-dark via-gold to-gold-light" />
+            <span className="relative z-10 text-ink flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              生成出海策略
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
           </motion.button>
         </motion.div>
       )}
 
-      {/* Country Confirm Modal */}
       {showModal && marketContent && (
         <CountryConfirmModal
           candidates={marketContent.candidates}

@@ -14,7 +14,7 @@ interface MarketStepProps {
 }
 
 const inputClass =
-  'w-full bg-ink-lighter border-none rounded-lg px-4 py-3 text-snow placeholder-snow/30 ' +
+  'w-full bg-cream-dark/40 border border-ink/8 px-4 py-3 text-ink placeholder-ink/25 ' +
   'focus:outline-none focus:ring-2 focus:ring-gold/50 transition-shadow'
 
 export default function MarketStep({
@@ -43,10 +43,10 @@ export default function MarketStep({
       exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="text-xl font-semibold text-snow">市场目标</h3>
+      <h3 className="text-xl font-semibold text-ink">市场目标</h3>
 
       <div>
-        <label className="block text-sm text-snow/60 mb-3">
+        <label className="block text-sm text-ink/60 mb-3">
           目标国家（可多选，留空由 AI 推荐）
         </label>
         <div className="flex flex-wrap gap-2">
@@ -54,10 +54,10 @@ export default function MarketStep({
             <button
               key={country}
               onClick={() => toggleCountry(country)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer border ${
                 targetCountries.includes(country)
-                  ? 'bg-gold text-ink'
-                  : 'bg-ink-lighter text-snow/60 hover:text-snow hover:bg-ink-lighter/80'
+                  ? 'bg-gold text-ink border-gold'
+                  : 'bg-cream-dark/40 text-ink/60 border-ink/8 hover:text-ink hover:border-gold/40'
               }`}
             >
               {country}
@@ -68,13 +68,13 @@ export default function MarketStep({
 
       {targetCountries.length > 0 && (
         <div>
-          <label className="block text-sm text-snow/60 mb-2">已选择</label>
+          <label className="block text-sm text-ink/60 mb-2">已选择</label>
           <div className="flex flex-wrap gap-2">
             {targetCountries.map((country) => (
               <span
                 key={country}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold/15 text-gold
-                           rounded-full text-sm"
+                           text-sm border border-gold/20"
               >
                 {country}
                 <button
@@ -90,7 +90,7 @@ export default function MarketStep({
       )}
 
       <div>
-        <label className="block text-sm text-snow/60 mb-1.5">其他说明</label>
+        <label className="block text-sm text-ink/60 mb-1.5">其他说明</label>
         <textarea
           className={`${inputClass} min-h-[100px] resize-y`}
           placeholder="补充说明目标市场、竞品、预算等信息..."

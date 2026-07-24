@@ -38,10 +38,10 @@ export default function MarketRadar({ scores }: MarketRadarProps) {
   return (
     <ResponsiveContainer width="100%" height={220}>
       <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-        <PolarGrid stroke="#3d3d5c" />
+        <PolarGrid stroke="#c9a96e20" />
         <PolarAngleAxis
           dataKey="dimension"
-          tick={{ fill: '#fafafa80', fontSize: 11 }}
+          tick={{ fill: '#1a1a2e80', fontSize: 11 }}
         />
         <Radar
           dataKey="score"

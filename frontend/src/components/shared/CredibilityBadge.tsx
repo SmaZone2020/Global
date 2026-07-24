@@ -20,13 +20,13 @@ export default function CredibilityBadge({ level, className }: CredibilityBadgeP
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium',
-        'bg-ink-lighter/50',
+        'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium',
+        'bg-cream-dark/50 border border-ink/8',
         config.color,
         className
       )}
     >
-      <span className={cn('w-1.5 h-1.5 rounded-full', config.dotColor)} />
+      <span className={cn('w-1.5 h-1.5', config.dotColor)} />
       {config.label}
     </span>
   )

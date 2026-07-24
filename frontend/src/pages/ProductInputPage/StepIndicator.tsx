@@ -25,32 +25,43 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
             <div className="flex items-center gap-2">
               <motion.div
                 className={cn(
-                  'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors',
-                  isCompleted && 'bg-gold text-ink',
-                  isActive && 'bg-gold/20 text-gold border border-gold',
-                  !isCompleted && !isActive && 'bg-ink-lighter text-snow/40'
+                  'relative w-9 h-9 flex items-center justify-center text-sm font-medium',
+                  isCompleted && 'text-ink',
+                  isActive && 'text-gold',
+                  !isCompleted && !isActive && 'text-ink/30'
                 )}
-                animate={isActive ? { scale: [1, 1.08, 1] } : {}}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                animate={isActive ? { scale: [1, 1.06, 1] } : {}}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               >
-                {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
+                <div className={cn(
+                  'absolute inset-0 transition-all duration-500',
+                  isCompleted && 'bg-gradient-to-br from-gold-dark via-gold to-gold-light',
+                  isActive && 'bg-gradient-to-br from-gold/30 via-gold/20 to-gold/10 border border-gold/60',
+                  !isCompleted && !isActive && 'bg-cream-dark/50 border border-ink/10'
+                )} />
+                <span className="relative z-10">
+                  {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
+                </span>
               </motion.div>
               <span
                 className={cn(
-                  'text-sm hidden sm:inline',
-                  isActive ? 'text-gold font-medium' : 'text-snow/40'
+                  'text-sm hidden sm:inline transition-colors duration-300',
+                  isActive ? 'text-gold font-medium' : isCompleted ? 'text-gold/60' : 'text-ink/30'
                 )}
               >
                 {step.label}
               </span>
             </div>
             {index < steps.length - 1 && (
-              <div
-                className={cn(
-                  'w-8 h-px mx-1',
-                  index < currentStep ? 'bg-gold' : 'bg-ink-lighter'
-                )}
-              />
+              <div className="relative w-10 h-px mx-1">
+                <div className="absolute inset-0 bg-ink/10" />
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-gold to-gold-light"
+                  initial={{ width: 0 }}
+                  animate={{ width: index < currentStep ? '100%' : '0%' }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                />
+              </div>
             )}
           </div>
         )

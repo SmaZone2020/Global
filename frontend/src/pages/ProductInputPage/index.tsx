@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Loader2, Sparkles } from 'lucide-react'
+import { Loader2, Sparkles, ArrowLeft, ArrowRight } from 'lucide-react'
 import { projectApi } from '@/services/api'
 import { useProjectStore } from '@/stores/projectStore'
 import type { CreateProjectRequest } from '@/types'
+import GoldParticles from '@/components/shared/GoldParticles'
 import StepIndicator from './StepIndicator'
 import BrandStep from './BrandStep'
 import ProductStep from './ProductStep'
@@ -116,106 +117,147 @@ export default function ProductInputPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-snow">产品录入</h2>
+    <div className="relative max-w-3xl mx-auto">
+      <div className="fixed inset-0 pointer-events-none">
+        <GoldParticles count={15} />
+      </div>
+
+      <motion.div
+        className="flex items-center justify-between mb-8"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div>
+          <h2 className="text-2xl font-bold text-ink mb-1 font-serif">产品录入</h2>
+          <p className="text-xs text-gold/30 tracking-wider uppercase">Product Registration</p>
+        </div>
         {currentStep === 0 && (
           <motion.button
             onClick={fillDemo}
-            className="flex items-center gap-2 px-4 py-2 bg-gold/10 text-gold rounded-lg
-                       text-sm hover:bg-gold/20 transition-colors cursor-pointer"
+            className="group flex items-center gap-2 px-5 py-2.5 text-sm cursor-pointer
+                       border border-gold/20 hover:border-gold/40 bg-gold/[0.05] hover:bg-gold/[0.1]
+                       transition-all duration-300"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <Sparkles className="w-4 h-4" />
-            示例填充
+            <Sparkles className="w-4 h-4 text-gold" />
+            <span className="text-gold">示例填充</span>
           </motion.button>
         )}
-      </div>
+      </motion.div>
 
       <StepIndicator currentStep={currentStep} />
 
-      <div className="bg-ink-light rounded-xl p-8">
-        {currentStep === 0 && (
-          <BrandStep
-            data={{ brandName, establishedYear, brandOrigin, brandHistory, brandVoice, prohibitedClaims }}
-            onChange={handleFieldChange}
-          />
-        )}
-        {currentStep === 1 && (
-          <ProductStep
-            data={{
-              productName, productCategory, productSku, productSpecs,
-              productIngredients, productProcess, productPrice, productImageUrl,
-            }}
-            onChange={handleFieldChange}
-          />
-        )}
-        {currentStep === 2 && (
-          <CultureStep
-            cultureDescription={cultureDescription}
-            onDescriptionChange={setCultureDescription}
-            files={uploadFiles}
-            onFilesChange={setUploadFiles}
-          />
-        )}
-        {currentStep === 3 && (
-          <MarketStep
-            targetCountries={targetCountries}
-            otherNotes={otherNotes}
-            onCountriesChange={setTargetCountries}
-            onNotesChange={setOtherNotes}
-          />
-        )}
+      <motion.div
+        className="relative overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-gold/15 via-gold/5 to-gold/10" />
+        <div className="absolute inset-[1px] bg-cream-light" />
 
-        {error && (
-          <p className="text-unverified text-sm mt-4">{error}</p>
-        )}
-
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-ink-lighter">
-          <button
-            onClick={() => setCurrentStep((s) => s - 1)}
-            disabled={currentStep === 0}
-            className="px-6 py-2.5 text-snow/60 hover:text-snow rounded-lg transition-colors
-                       disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-          >
-            上一步
-          </button>
-
-          {currentStep < 3 ? (
-            <motion.button
-              onClick={() => setCurrentStep((s) => s + 1)}
-              disabled={!canNext()}
-              className="px-6 py-2.5 bg-gold text-ink font-semibold rounded-lg text-sm
-                         hover:bg-gold-light transition-colors disabled:opacity-40
-                         disabled:cursor-not-allowed cursor-pointer"
-              whileHover={canNext() ? { scale: 1.03 } : {}}
-              whileTap={canNext() ? { scale: 0.97 } : {}}
-            >
-              下一步
-            </motion.button>
-          ) : (
-            <motion.button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className="px-8 py-2.5 bg-gold text-ink font-semibold rounded-lg text-sm
-                         hover:bg-gold-light transition-colors disabled:opacity-60
-                         disabled:cursor-not-allowed cursor-pointer"
-              whileHover={!submitting ? { scale: 1.03 } : {}}
-              whileTap={!submitting ? { scale: 0.97 } : {}}
-            >
-              {submitting ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  提交中...
-                </span>
-              ) : (
-                '开始分析'
-              )}
-            </motion.button>
+        <div className="relative p-8">
+          {currentStep === 0 && (
+            <BrandStep
+              data={{ brandName, establishedYear, brandOrigin, brandHistory, brandVoice, prohibitedClaims }}
+              onChange={handleFieldChange}
+            />
           )}
+          {currentStep === 1 && (
+            <ProductStep
+              data={{
+                productName, productCategory, productSku, productSpecs,
+                productIngredients, productProcess, productPrice, productImageUrl,
+              }}
+              onChange={handleFieldChange}
+            />
+          )}
+          {currentStep === 2 && (
+            <CultureStep
+              cultureDescription={cultureDescription}
+              onDescriptionChange={setCultureDescription}
+              files={uploadFiles}
+              onFilesChange={setUploadFiles}
+            />
+          )}
+          {currentStep === 3 && (
+            <MarketStep
+              targetCountries={targetCountries}
+              otherNotes={otherNotes}
+              onCountriesChange={setTargetCountries}
+              onNotesChange={setOtherNotes}
+            />
+          )}
+
+          {error && (
+            <motion.p
+              className="text-unverified text-sm mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {error}
+            </motion.p>
+          )}
+
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gold/10">
+            <motion.button
+              onClick={() => setCurrentStep((s) => s - 1)}
+              disabled={currentStep === 0}
+              className="flex items-center gap-2 px-5 py-2.5 text-ink/50 hover:text-ink
+                         transition-colors disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer"
+              whileHover={currentStep > 0 ? { x: -3 } : {}}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              上一步
+            </motion.button>
+
+            {currentStep < 3 ? (
+              <motion.button
+                onClick={() => setCurrentStep((s) => s + 1)}
+                disabled={!canNext()}
+                className="group relative flex items-center gap-2 px-6 py-2.5 text-sm
+                           font-semibold overflow-hidden disabled:opacity-30
+                           disabled:cursor-not-allowed cursor-pointer"
+                whileHover={canNext() ? { scale: 1.03 } : {}}
+                whileTap={canNext() ? { scale: 0.97 } : {}}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-gold-dark via-gold to-gold-light" />
+                <span className="relative z-10 text-ink flex items-center gap-2">
+                  下一步
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </motion.button>
+            ) : (
+              <motion.button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="group relative flex items-center gap-2 px-8 py-2.5 text-sm
+                           font-semibold overflow-hidden disabled:opacity-50
+                           disabled:cursor-not-allowed cursor-pointer"
+                whileHover={!submitting ? { scale: 1.03 } : {}}
+                whileTap={!submitting ? { scale: 0.97 } : {}}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-gold-dark via-gold to-gold-light" />
+                <span className="relative z-10 text-ink flex items-center gap-2">
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      提交中...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      开始分析
+                    </>
+                  )}
+                </span>
+              </motion.button>
+            )}
+          </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
