@@ -41,16 +41,17 @@ public class OpenAiImageProvider : IImageProvider
         var json = JsonSerializer.Serialize(body);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        _logger.LogInformation("Image generation request: model={Model}", _options.Model);
+        _logger.LogInformation("[IMG] REQ model={Model} body={Body}",
+            _options.Model, json[..Math.Min(1000, json.Length)]);
 
         var response = await _http.PostAsync("v1/images/generations", content, ct);
         var responseBody = await response.Content.ReadAsStringAsync(ct);
 
+        _logger.LogInformation("[IMG] RES status={Status} body={Body}",
+            (int)response.StatusCode, responseBody[..Math.Min(1000, responseBody.Length)]);
+
         if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("Image API error {Status}: {Body}", response.StatusCode, responseBody[..Math.Min(500, responseBody.Length)]);
             throw new HttpRequestException($"Image API returned {response.StatusCode}");
-        }
 
         using var doc = JsonDocument.Parse(responseBody);
         var url = doc.RootElement
@@ -58,7 +59,6 @@ public class OpenAiImageProvider : IImageProvider
             .GetProperty("url")
             .GetString() ?? "";
 
-        _logger.LogInformation("Image generated: {Url}", url[..Math.Min(80, url.Length)]);
         return url;
     }
 }

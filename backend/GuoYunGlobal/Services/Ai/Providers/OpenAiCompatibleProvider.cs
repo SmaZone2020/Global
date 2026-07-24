@@ -50,16 +50,17 @@ public class OpenAiCompatibleProvider : ILlmProvider
         var json = JsonSerializer.Serialize(body);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        _logger.LogInformation("LLM request to {Model}, messages: {Count}", _options.Model, messages.Count);
+        _logger.LogInformation("[LLM] REQ model={Model} messages={Count} body={Body}",
+            _options.Model, messages.Count, json[..Math.Min(1000, json.Length)]);
 
         var response = await _http.PostAsync("chat/completions", content, ct);
         var responseBody = await response.Content.ReadAsStringAsync(ct);
 
+        _logger.LogInformation("[LLM] RES status={Status} body={Body}",
+            (int)response.StatusCode, responseBody[..Math.Min(1000, responseBody.Length)]);
+
         if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("LLM error {Status}: {Body}", response.StatusCode, responseBody[..Math.Min(500, responseBody.Length)]);
             throw new HttpRequestException($"LLM API returned {response.StatusCode}");
-        }
 
         using var doc = JsonDocument.Parse(responseBody);
         var result = doc.RootElement
@@ -68,7 +69,6 @@ public class OpenAiCompatibleProvider : ILlmProvider
             .GetProperty("content")
             .GetString() ?? "";
 
-        _logger.LogInformation("LLM response length: {Len}", result.Length);
         return result;
     }
 }
