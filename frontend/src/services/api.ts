@@ -54,6 +54,9 @@ export const projectApi = {
   getStrategy: (id: number): ApiCall<Strategy> =>
     api.get(`/projects/${id}/strategy`),
 
+  regenerateStrategySection: (id: number, section: string): ApiCall<any> =>
+    api.post(`/projects/${id}/strategy/${section}`),
+
   generateMarketing: (id: number, data: MarketingRequest): ApiCall<GeneratedAsset[]> =>
     api.post(`/projects/${id}/marketing`, data),
 

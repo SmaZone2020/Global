@@ -159,6 +159,85 @@ public class ProjectController : ControllerBase
         return Ok(ApiResponse<UploadedDocumentResponse>.Ok(response));
     }
 
+    [HttpPost("{id}/strategy")]
+    public async Task<IActionResult> GenerateStrategy(int id)
+    {
+        var project = await _context.Projects.FindAsync(id);
+        if (project == null)
+            return NotFound(ApiResponse<object>.Fail("项目不存在"));
+
+        var existing = await _context.Strategies.FirstOrDefaultAsync(s => s.ProjectId == id);
+        if (existing != null)
+            _context.Strategies.Remove(existing);
+
+        var strategy = new Strategy
+        {
+            ProjectId = id,
+            Positioning = DemoStrategyData.GetPositioning(),
+            SkuPlan = DemoStrategyData.GetSkuPlan(),
+            Packaging = DemoStrategyData.GetPackaging(),
+            Pricing = DemoStrategyData.GetPricing(),
+            Channels = DemoStrategyData.GetChannels(),
+            Roadmap = DemoStrategyData.GetRoadmap(),
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Strategies.Add(strategy);
+        project.Status = ProjectStatus.StrategyReady;
+        project.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        var response = new StrategyResponse
+        {
+            Id = strategy.Id,
+            ProjectId = strategy.ProjectId,
+            Positioning = DeserializeJson(strategy.Positioning),
+            SkuPlan = DeserializeJson(strategy.SkuPlan),
+            Packaging = DeserializeJson(strategy.Packaging),
+            Pricing = DeserializeJson(strategy.Pricing),
+            Channels = DeserializeJson(strategy.Channels),
+            Roadmap = DeserializeJson(strategy.Roadmap),
+            CreatedAt = strategy.CreatedAt
+        };
+
+        return Ok(ApiResponse<StrategyResponse>.Ok(response));
+    }
+
+    [HttpPost("{id}/strategy/{section}")]
+    public async Task<IActionResult> RegenerateStrategySection(int id, string section)
+    {
+        var strategy = await _context.Strategies.FirstOrDefaultAsync(s => s.ProjectId == id);
+        if (strategy == null)
+            return NotFound(ApiResponse<object>.Fail("该项目暂无策略数据"));
+
+        var newContent = section switch
+        {
+            "positioning" => DemoStrategyData.GetPositioning(),
+            "skuPlan" => DemoStrategyData.GetSkuPlan(),
+            "packaging" => DemoStrategyData.GetPackaging(),
+            "pricing" => DemoStrategyData.GetPricing(),
+            "channels" => DemoStrategyData.GetChannels(),
+            "roadmap" => DemoStrategyData.GetRoadmap(),
+            _ => null
+        };
+
+        if (newContent == null)
+            return BadRequest(ApiResponse<object>.Fail("无效的策略模块"));
+
+        switch (section)
+        {
+            case "positioning": strategy.Positioning = newContent; break;
+            case "skuPlan": strategy.SkuPlan = newContent; break;
+            case "packaging": strategy.Packaging = newContent; break;
+            case "pricing": strategy.Pricing = newContent; break;
+            case "channels": strategy.Channels = newContent; break;
+            case "roadmap": strategy.Roadmap = newContent; break;
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok(ApiResponse<object>.Ok(DeserializeJson(newContent)!));
+    }
+
     [HttpGet("{id}/strategy")]
     public async Task<IActionResult> GetStrategy(int id)
     {
