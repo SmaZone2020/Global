@@ -36,6 +36,8 @@ export default function ProductInputPage() {
   const [productPrice, setProductPrice] = useState<number | undefined>()
   const [productImageUrl, setProductImageUrl] = useState('')
 
+  const [productImageFile, setProductImageFile] = useState<File | null>(null)
+
   const [cultureDescription, setCultureDescription] = useState('')
   const [uploadFiles, setUploadFiles] = useState<File[]>([])
 
@@ -98,6 +100,15 @@ export default function ProductInputPage() {
 
       const projectId = res.data.id
       setCurrentProject(res.data)
+
+      if (productImageFile) {
+        const imgForm = new FormData()
+        imgForm.append('file', productImageFile)
+        const imgRes = await projectApi.upload(projectId, imgForm)
+        if (imgRes.success && imgRes.data?.filePath) {
+          // Image uploaded; backend stores the path
+        }
+      }
 
       if (uploadFiles.length > 0) {
         for (const file of uploadFiles) {
@@ -172,6 +183,8 @@ export default function ProductInputPage() {
                 productIngredients, productProcess, productPrice, productImageUrl,
               }}
               onChange={handleFieldChange}
+              imageFile={productImageFile}
+              onImageFileChange={setProductImageFile}
             />
           )}
           {currentStep === 2 && (
