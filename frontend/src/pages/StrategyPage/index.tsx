@@ -11,6 +11,7 @@ import PackagingCard from './PackagingCard'
 import PricingCard from './PricingCard'
 import ChannelsCard from './ChannelsCard'
 import RoadmapCard from './RoadmapCard'
+import CultureReconCard from './CultureReconCard'
 
 export default function StrategyPage() {
   const { id } = useParams<{ id: string }>()
@@ -18,6 +19,7 @@ export default function StrategyPage() {
   const projectId = Number(id)
 
   const [strategy, setStrategy] = useState<Strategy | null>(null)
+  const [cultureContent, setCultureContent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [generating, setGenerating] = useState(false)
   const [regeneratingSection, setRegeneratingSection] = useState<string | null>(null)
@@ -25,13 +27,18 @@ export default function StrategyPage() {
 
   const fetchStrategy = useCallback(async () => {
     try {
-      const res = await projectApi.getStrategy(projectId)
-      if (res.success && res.data) {
-        setStrategy(res.data)
-        setLoading(false)
-      } else {
-        setLoading(false)
+      const [stratRes, analysisRes] = await Promise.all([
+        projectApi.getStrategy(projectId),
+        projectApi.getAnalysis(projectId),
+      ])
+      if (stratRes.success && stratRes.data) {
+        setStrategy(stratRes.data)
       }
+      if (analysisRes.success && analysisRes.data) {
+        const culture = analysisRes.data.find((r) => r.type === 'culture')
+        if (culture) setCultureContent(culture.content)
+      }
+      setLoading(false)
     } catch {
       setLoading(false)
     }
@@ -140,6 +147,7 @@ export default function StrategyPage() {
           onRegenerate={() => regenerateSection('positioning')}
           regenerating={regeneratingSection === 'positioning'}
         />
+        {cultureContent && <CultureReconCard content={cultureContent} />}
         <SkuPlanCard
           data={strategy.skuPlan}
           onRegenerate={() => regenerateSection('skuPlan')}
