@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 
-const popularCountries = [
-  '美国', '日本', '新加坡', '英国', '澳大利亚',
-  '加拿大', '韩国', '德国', '法国', '泰国',
+const popularRegions = [
+  '东南亚', '西欧', '东欧', '北美', '中亚',
+  '中东', '日韩', '南美', '非洲', '大洋洲',
 ]
 
 interface MarketStepProps {
@@ -23,16 +24,32 @@ export default function MarketStep({
   onCountriesChange,
   onNotesChange,
 }: MarketStepProps) {
-  const toggleCountry = (country: string) => {
-    if (targetCountries.includes(country)) {
-      onCountriesChange(targetCountries.filter((c) => c !== country))
+  const [customMode, setCustomMode] = useState(false)
+  const [customInput, setCustomInput] = useState('')
+
+  const toggleRegion = (region: string) => {
+    if (region === '__custom') {
+      setCustomMode(true)
+      return
+    }
+    if (targetCountries.includes(region)) {
+      onCountriesChange(targetCountries.filter((c) => c !== region))
     } else {
-      onCountriesChange([...targetCountries, country])
+      onCountriesChange([...targetCountries, region])
     }
   }
 
-  const removeCountry = (country: string) => {
-    onCountriesChange(targetCountries.filter((c) => c !== country))
+  const addCustomRegion = () => {
+    const val = customInput.trim()
+    if (val && !targetCountries.includes(val)) {
+      onCountriesChange([...targetCountries, val])
+    }
+    setCustomInput('')
+    setCustomMode(false)
+  }
+
+  const removeRegion = (region: string) => {
+    onCountriesChange(targetCountries.filter((c) => c !== region))
   }
 
   return (
@@ -47,22 +64,46 @@ export default function MarketStep({
 
       <div>
         <label className="block text-sm text-ink/60 mb-3">
-          目标国家（可多选，留空由 AI 推荐）
+          目标地区（可多选，留空由 AI 推荐）
         </label>
-        <div className="flex flex-wrap gap-2">
-          {popularCountries.map((country) => (
+        <div className="flex flex-wrap gap-2 items-center">
+          {popularRegions.map((region) => (
             <button
-              key={country}
-              onClick={() => toggleCountry(country)}
+              key={region}
+              onClick={() => toggleRegion(region)}
               className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer border ${
-                targetCountries.includes(country)
+                targetCountries.includes(region)
                   ? 'bg-gold text-ink border-gold'
                   : 'bg-cream-dark/40 text-ink/60 border-ink/8 hover:text-ink hover:border-gold/40'
               }`}
             >
-              {country}
+              {region}
             </button>
           ))}
+          <button
+            onClick={() => setCustomMode(true)}
+            className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer border ${
+              customMode
+                ? 'bg-gold text-ink border-gold'
+                : 'bg-cream-dark/40 text-ink/60 border-ink/8 hover:text-ink hover:border-gold/40'
+            }`}
+          >
+            其他
+          </button>
+          {customMode && (
+            <input
+              type="text"
+              value={customInput}
+              onChange={(e) => setCustomInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addCustomRegion()}
+              onBlur={addCustomRegion}
+              placeholder="输入地区名称，回车确认"
+              autoFocus
+              className="px-3 py-2 text-sm bg-cream border border-gold/30
+                         text-ink placeholder:text-ink/30 w-48
+                         focus:outline-none focus:border-gold/50 transition-colors"
+            />
+          )}
         </div>
       </div>
 
@@ -70,15 +111,15 @@ export default function MarketStep({
         <div>
           <label className="block text-sm text-ink/60 mb-2">已选择</label>
           <div className="flex flex-wrap gap-2">
-            {targetCountries.map((country) => (
+            {targetCountries.map((region) => (
               <span
-                key={country}
+                key={region}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold/15 text-gold
                            text-sm border border-gold/20"
               >
-                {country}
+                {region}
                 <button
-                  onClick={() => removeCountry(country)}
+                  onClick={() => removeRegion(region)}
                   className="hover:text-gold-light cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />

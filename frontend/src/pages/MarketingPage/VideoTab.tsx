@@ -46,30 +46,37 @@ interface Props {
 
 export default function VideoTab({ projectId }: Props) {
   const [selectedStyle, setSelectedStyle] = useState('cinematic')
+  const [customStyleInput, setCustomStyleInput] = useState('')
   const [selectedPlatform, setSelectedPlatform] = useState('tiktok')
+  const [customPlatformInput, setCustomPlatformInput] = useState('')
   const [selectedDuration, setSelectedDuration] = useState('15')
+  const [customDurationInput, setCustomDurationInput] = useState('')
   const [selectedTone, setSelectedTone] = useState('premium')
-  const [customStyle, setCustomStyle] = useState('')
+  const [customToneInput, setCustomToneInput] = useState('')
   const [prompt, setPrompt] = useState('')
   const [generating, setGenerating] = useState(false)
   const [scripts, setScripts] = useState<ScriptResult[]>([])
+
+  const getStyleLabel = () =>
+    selectedStyle === '__custom' ? customStyleInput : stylePresets.find(s => s.key === selectedStyle)?.label ?? ''
+  const getPlatformLabel = () =>
+    selectedPlatform === '__custom' ? customPlatformInput : platformPresets.find(s => s.key === selectedPlatform)?.label ?? ''
+  const getDurationLabel = () =>
+    selectedDuration === '__custom' ? customDurationInput : `${selectedDuration}秒`
+  const getToneLabel = () =>
+    selectedTone === '__custom' ? customToneInput : tonePresets.find(s => s.key === selectedTone)?.label ?? ''
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return
     setGenerating(true)
 
-    const styleParts = [
-      stylePresets.find(s => s.key === selectedStyle)?.label,
-      platformPresets.find(s => s.key === selectedPlatform)?.label,
-      `${selectedDuration}秒`,
-      tonePresets.find(s => s.key === selectedTone)?.label,
-      customStyle.trim(),
-    ].filter(Boolean).join(' · ')
+    const styleParts = [getStyleLabel(), getPlatformLabel(), getDurationLabel(), getToneLabel()]
+      .filter(Boolean).join(' · ')
 
     try {
       const res = await projectApi.generateVideoScript(projectId, {
-        prompt: `${prompt}\n\n风格要求：${styleParts}\n时长：${selectedDuration}秒\n平台：${selectedPlatform}`,
-        style: selectedStyle,
+        prompt: `${prompt}\n\n风格要求：${styleParts}\n时长：${getDurationLabel()}\n平台：${getPlatformLabel()}`,
+        style: selectedStyle === '__custom' ? customStyleInput : selectedStyle,
       })
       if (res.success && res.data) {
         setScripts((prev) => [res.data!, ...prev])
@@ -90,83 +97,47 @@ export default function VideoTab({ projectId }: Props) {
         <div className="absolute inset-[1px] bg-cream-light" />
         <div className="relative p-6 space-y-5">
 
-          {/* Row 1: Visual Style */}
-          <div>
-            <label className="text-xs text-ink/40 mb-2 block">视觉风格</label>
-            <div className="flex flex-wrap gap-2">
-              {stylePresets.map((preset) => (
-                <ChipButton
-                  key={preset.key}
-                  label={preset.label}
-                  active={selectedStyle === preset.key}
-                  onClick={() => setSelectedStyle(preset.key)}
-                />
-              ))}
-            </div>
-          </div>
+          <ChipGroup
+            label="视觉风格"
+            presets={stylePresets}
+            selected={selectedStyle}
+            onSelect={setSelectedStyle}
+            customValue={customStyleInput}
+            onCustomChange={setCustomStyleInput}
+            customPlaceholder="输入自定义风格..."
+          />
 
-          {/* Row 2: Platform */}
-          <div>
-            <label className="text-xs text-ink/40 mb-2 block">目标平台</label>
-            <div className="flex flex-wrap gap-2">
-              {platformPresets.map((preset) => (
-                <ChipButton
-                  key={preset.key}
-                  label={preset.label}
-                  active={selectedPlatform === preset.key}
-                  onClick={() => setSelectedPlatform(preset.key)}
-                />
-              ))}
-            </div>
-          </div>
+          <ChipGroup
+            label="目标平台"
+            presets={platformPresets}
+            selected={selectedPlatform}
+            onSelect={setSelectedPlatform}
+            customValue={customPlatformInput}
+            onCustomChange={setCustomPlatformInput}
+            customPlaceholder="输入平台名称..."
+          />
 
-          {/* Row 3: Duration + Tone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label className="text-xs text-ink/40 mb-2 block">时长</label>
-              <div className="flex flex-wrap gap-2">
-                {durationPresets.map((preset) => (
-                  <ChipButton
-                    key={preset.key}
-                    label={preset.label}
-                    active={selectedDuration === preset.key}
-                    onClick={() => setSelectedDuration(preset.key)}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="text-xs text-ink/40 mb-2 block">调性</label>
-              <div className="flex flex-wrap gap-2">
-                {tonePresets.map((preset) => (
-                  <ChipButton
-                    key={preset.key}
-                    label={preset.label}
-                    active={selectedTone === preset.key}
-                    onClick={() => setSelectedTone(preset.key)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Row 4: Custom style supplement */}
-          <div>
-            <label className="text-xs text-ink/40 mb-2 block">
-              自定义风格补充（可选）
-            </label>
-            <input
-              type="text"
-              value={customStyle}
-              onChange={(e) => setCustomStyle(e.target.value)}
-              placeholder="例如：加入赛博朋克元素、使用分屏对比手法..."
-              className="w-full px-4 py-2.5 text-sm bg-cream border border-ink/8
-                         text-ink placeholder:text-ink/30
-                         focus:outline-none focus:border-gold/40 transition-colors"
+            <ChipGroup
+              label="时长"
+              presets={durationPresets}
+              selected={selectedDuration}
+              onSelect={setSelectedDuration}
+              customValue={customDurationInput}
+              onCustomChange={setCustomDurationInput}
+              customPlaceholder="如：90秒"
+            />
+            <ChipGroup
+              label="调性"
+              presets={tonePresets}
+              selected={selectedTone}
+              onSelect={setSelectedTone}
+              customValue={customToneInput}
+              onCustomChange={setCustomToneInput}
+              customPlaceholder="输入自定义调性..."
             />
           </div>
 
-          {/* Row 5: Content prompt */}
           <div>
             <label className="text-xs text-ink/40 mb-2 block">视频内容描述</label>
             <textarea
@@ -205,26 +176,61 @@ export default function VideoTab({ projectId }: Props) {
   )
 }
 
-function ChipButton({ label, active, onClick }: {
-  label: string; active: boolean; onClick: () => void
+function ChipGroup({ label, presets, selected, onSelect, customValue, onCustomChange, customPlaceholder }: {
+  label: string
+  presets: { key: string; label: string }[]
+  selected: string
+  onSelect: (key: string) => void
+  customValue: string
+  onCustomChange: (v: string) => void
+  customPlaceholder: string
 }) {
   return (
-    <button
-      onClick={onClick}
-      className={`px-3 py-1.5 text-xs cursor-pointer border transition-all ${
-        active
-          ? 'border-chi/30 bg-chi/8 text-chi font-medium'
-          : 'border-ink/8 bg-cream text-ink/50 hover:border-gold/30 hover:text-ink/70'
-      }`}
-    >
-      {label}
-    </button>
+    <div>
+      <label className="text-xs text-ink/40 mb-2 block">{label}</label>
+      <div className="flex flex-wrap gap-2 items-center">
+        {presets.map((preset) => (
+          <button
+            key={preset.key}
+            onClick={() => onSelect(preset.key)}
+            className={`px-3 py-1.5 text-xs cursor-pointer border transition-all ${
+              selected === preset.key
+                ? 'border-chi/30 bg-chi/8 text-chi font-medium'
+                : 'border-ink/8 bg-cream text-ink/50 hover:border-gold/30 hover:text-ink/70'
+            }`}
+          >
+            {preset.label}
+          </button>
+        ))}
+        <button
+          onClick={() => onSelect('__custom')}
+          className={`px-3 py-1.5 text-xs cursor-pointer border transition-all ${
+            selected === '__custom'
+              ? 'border-chi/30 bg-chi/8 text-chi font-medium'
+              : 'border-ink/8 bg-cream text-ink/50 hover:border-gold/30 hover:text-ink/70'
+          }`}
+        >
+          其他
+        </button>
+        {selected === '__custom' && (
+          <input
+            type="text"
+            value={customValue}
+            onChange={(e) => onCustomChange(e.target.value)}
+            placeholder={customPlaceholder}
+            autoFocus
+            className="px-3 py-1.5 text-xs bg-cream border border-gold/30
+                       text-ink placeholder:text-ink/30 w-40
+                       focus:outline-none focus:border-gold/50 transition-colors"
+          />
+        )}
+      </div>
+    </div>
   )
 }
 
 function ScriptCard({ result, index }: { result: ScriptResult; index: number }) {
   const [copied, setCopied] = useState(false)
-
   const scenes = parseScenes(result.script)
 
   const handleCopy = () => {
@@ -264,9 +270,7 @@ function ScriptCard({ result, index }: { result: ScriptResult; index: number }) 
             <div key={i} className="flex gap-3 group">
               <div className="flex flex-col items-center">
                 <div className="w-2 h-2 mt-2 bg-gold shrink-0" />
-                {i < scenes.length - 1 && (
-                  <div className="w-px flex-1 bg-gold/20 my-1" />
-                )}
+                {i < scenes.length - 1 && <div className="w-px flex-1 bg-gold/20 my-1" />}
               </div>
               <div className="pb-4 flex-1">
                 {scene.time && (
