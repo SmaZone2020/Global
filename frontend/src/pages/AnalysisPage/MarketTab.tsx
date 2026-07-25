@@ -3,6 +3,7 @@ import {
   Star, Users, Swords, Store, DollarSign, AlertTriangle,
 } from 'lucide-react'
 import MarketRadar from './MarketRadar'
+import MarkdownReport from '@/components/shared/MarkdownReport'
 
 interface MarketContent {
   candidates?: {
@@ -62,6 +63,10 @@ const pricingTiers = [
 ] as const
 
 export default function MarketTab({ content, onConfirmMarket, marketConfirmed }: MarketTabProps) {
+  if (content?.markdown || (typeof content === 'string')) {
+    return <MarkdownReport content={content} />
+  }
+
   const candidates = content.candidates ?? []
   const personas = content.consumerPersonas ?? []
   const competitors = content.competitorAnalysis ?? []

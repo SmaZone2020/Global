@@ -52,15 +52,19 @@ public class AnalysisController : ControllerBase
         var cultureContent = await _ai.GenerateCultureDecodeAsync(brandInfo, productInfo);
         var marketContent = await _ai.GenerateMarketInsightAsync(brandInfo, productInfo);
 
+        var wrapMd = (string md) => IsJson(md) ? md : JsonSerializer.Serialize(new { markdown = md });
+
         var results = new List<AnalysisResult>
         {
-            new() { ProjectId = id, Type = AnalysisType.Product, Content = productContent, Sources = "[]", CreatedAt = DateTime.UtcNow },
-            new() { ProjectId = id, Type = AnalysisType.Culture, Content = cultureContent, Sources = "[]", CreatedAt = DateTime.UtcNow },
-            new() { ProjectId = id, Type = AnalysisType.Market, Content = marketContent, Sources = "[]", CreatedAt = DateTime.UtcNow },
+            new() { ProjectId = id, Type = AnalysisType.Product, Content = wrapMd(productContent), Sources = "[]", CreatedAt = DateTime.UtcNow },
+            new() { ProjectId = id, Type = AnalysisType.Culture, Content = wrapMd(cultureContent), Sources = "[]", CreatedAt = DateTime.UtcNow },
+            new() { ProjectId = id, Type = AnalysisType.Market, Content = wrapMd(marketContent), Sources = "[]", CreatedAt = DateTime.UtcNow },
         };
         _context.AnalysisResults.AddRange(results);
 
         var markets = ParseMarketCandidates(id, marketContent);
+        if (markets.Count == 0)
+            markets = GetDefaultMarketCandidates(id);
         _context.MarketCandidates.AddRange(markets);
 
         project.Status = ProjectStatus.AwaitingConfirm;
@@ -206,4 +210,19 @@ public class AnalysisController : ControllerBase
             return json;
         }
     }
+
+    private static bool IsJson(string text)
+    {
+        var trimmed = text.TrimStart();
+        return trimmed.StartsWith('{') || trimmed.StartsWith('[');
+    }
+
+    private static List<MarketCandidate> GetDefaultMarketCandidates(int projectId) => new()
+    {
+        new() { ProjectId = projectId, Country = "香港", TotalScore = 88, DimensionScores = "{}", Evidence = "[]", Risks = "[]", IsSelected = false },
+        new() { ProjectId = projectId, Country = "新加坡", TotalScore = 82, DimensionScores = "{}", Evidence = "[]", Risks = "[]", IsSelected = false },
+        new() { ProjectId = projectId, Country = "日本", TotalScore = 76, DimensionScores = "{}", Evidence = "[]", Risks = "[]", IsSelected = false },
+        new() { ProjectId = projectId, Country = "美国", TotalScore = 70, DimensionScores = "{}", Evidence = "[]", Risks = "[]", IsSelected = false },
+        new() { ProjectId = projectId, Country = "欧盟", TotalScore = 65, DimensionScores = "{}", Evidence = "[]", Risks = "[]", IsSelected = false },
+    };
 }

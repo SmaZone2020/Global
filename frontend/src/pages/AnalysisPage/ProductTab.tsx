@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import CredibilityBadge from '@/components/shared/CredibilityBadge'
+import MarkdownReport from '@/components/shared/MarkdownReport'
 import type { CredibilityLevel } from '@/types'
 
 interface OverseasBarrier {
@@ -39,6 +40,11 @@ const swotConfig = [
 ] as const
 
 export default function ProductTab({ content }: ProductTabProps) {
+  // If content is markdown format, render with MarkdownReport
+  if (content?.markdown || (typeof content === 'string')) {
+    return <MarkdownReport content={content} />
+  }
+
   const tags = content.tags ?? []
   const sellingPoints = content.sellingPoints ?? []
   const swot = content.swot ?? {}

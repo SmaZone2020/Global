@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ShieldAlert, BookOpen, MessageSquareQuote } from 'lucide-react'
 import CredibilityBadge from '@/components/shared/CredibilityBadge'
+import MarkdownReport from '@/components/shared/MarkdownReport'
 import type { CredibilityLevel } from '@/types'
 
 interface CulturalAsset {
@@ -32,6 +33,10 @@ interface CultureTabProps {
 }
 
 export default function CultureTab({ content }: CultureTabProps) {
+  if (content?.markdown || (typeof content === 'string')) {
+    return <MarkdownReport content={content} />
+  }
+
   const assets = content.culturalAssets ?? content.culturalElements ?? []
   const prohibited = content.prohibitedTranslations ?? []
   const slogans = content.slogans ?? []
