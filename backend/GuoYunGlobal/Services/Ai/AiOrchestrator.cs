@@ -8,19 +8,23 @@ public class AiOrchestrator
     private readonly ILlmProvider _llm;
     private readonly IImageProvider _image;
     private readonly ILogger<AiOrchestrator> _logger;
+    private readonly bool _demoMode;
 
     public AiOrchestrator(
         ILlmProvider llm,
         IImageProvider image,
-        ILogger<AiOrchestrator> logger)
+        ILogger<AiOrchestrator> logger,
+        IConfiguration config)
     {
         _llm = llm;
         _image = image;
         _logger = logger;
+        _demoMode = config.GetValue<bool>("Demo:Enabled");
     }
 
     public async Task<string> GenerateProductAnalysisAsync(string brandInfo, string productInfo, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoProductData.GetProductAnalysisContent();
         var system = PromptTemplates.ProductAnalysis;
         var user = $"品牌信息：\n{brandInfo}\n\n产品信息：\n{productInfo}";
         try
@@ -36,6 +40,7 @@ public class AiOrchestrator
 
     public async Task<string> GenerateCultureDecodeAsync(string brandInfo, string productInfo, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoCultureData.GetCultureDecodeContent();
         var system = PromptTemplates.CultureDecode;
         var user = $"品牌信息：\n{brandInfo}\n\n产品信息：\n{productInfo}";
         try
@@ -51,6 +56,7 @@ public class AiOrchestrator
 
     public async Task<string> GenerateMarketInsightAsync(string brandInfo, string productInfo, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoMarketData.GetMarketInsightContent();
         var system = PromptTemplates.MarketInsight;
         var user = $"品牌信息：\n{brandInfo}\n\n产品信息：\n{productInfo}";
         try
@@ -66,6 +72,16 @@ public class AiOrchestrator
 
     public async Task<string> GenerateStrategyAsync(string analysisContext, string section, CancellationToken ct = default)
     {
+        if (_demoMode) return section switch
+        {
+            "positioning" => DemoStrategyData.GetPositioning(),
+            "skuPlan" => DemoStrategyData.GetSkuPlan(),
+            "packaging" => DemoStrategyData.GetPackaging(),
+            "pricing" => DemoStrategyData.GetPricing(),
+            "channels" => DemoStrategyData.GetChannels(),
+            "roadmap" => DemoStrategyData.GetRoadmap(),
+            _ => "{}"
+        };
         var system = PromptTemplates.StrategyGenerate;
         var user = $"基于以下分析结果，生成{section}模块的出海策略（JSON格式）：\n\n{analysisContext}";
         try
@@ -92,6 +108,7 @@ public class AiOrchestrator
         string brandInfo, string strategyContext, string channel, string style, string audience,
         CancellationToken ct = default)
     {
+        if (_demoMode) return DemoMarketingData.GetContent();
         var system = PromptTemplates.MarketingContent;
         var user = $"品牌：{brandInfo}\n策略背景：{strategyContext}\n\n"
             + $"请为以下场景生成营销内容：\n渠道：{channel}\n风格：{style}\n目标客群：{audience}\n\n"
@@ -109,6 +126,7 @@ public class AiOrchestrator
 
     public async Task<string> GenerateImageAsync(string prompt, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoPosterData.GetPlaceholderUrl();
         try
         {
             return await _image.GenerateImageAsync(prompt, ct);
@@ -122,6 +140,7 @@ public class AiOrchestrator
 
     public async Task<string> GenerateVideoScriptAsync(string prompt, string style, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoVideoData.GetScript();
         var system = @"你是一位国际广告片导演兼制片人，拥有20年商业短片拍摄经验。你需要基于产品背景资料，生成一份完整的视频制作方案。
 
 请严格按以下结构输出，每个板块都必须详尽，数据量要充足：
@@ -177,6 +196,7 @@ public class AiOrchestrator
 
     public async Task<string> GenerateProductInfoAsync(string brandName, string productName, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoQuickCreateData.GetProductInfo();
         var system = PromptTemplates.ProductInfoGenerate;
         var user = $"品牌名称：{brandName}\n产品名称：{productName}";
         return await _llm.ChatAsync(system, user, ct);
@@ -184,6 +204,7 @@ public class AiOrchestrator
 
     public async Task<string> GenerateAbTestVersionAsync(string productContext, string versionKey, string versionLabel, CancellationToken ct = default)
     {
+        if (_demoMode) return DemoAbTestData.GetVersion(versionKey);
         var system = @"你是一位品牌出海定位专家。请为指定产品生成一个特定定位方向的完整营销方案。
 
 输出Markdown格式，包含以下板块：

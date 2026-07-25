@@ -23,7 +23,7 @@ export default function PricingCard({ data, onRegenerate, regenerating }: Props)
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        {data.ranges.map((r) => (
+        {(data.ranges ?? []).map((r) => (
           <div key={r.tier} className="bg-cream-dark/40 p-4 border border-ink/5 text-center">
             <p className="text-xs text-ink/40 mb-1">{r.tier}</p>
             <p className="text-xl font-bold text-gold mb-1">{r.range}</p>

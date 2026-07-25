@@ -99,7 +99,17 @@ export default function AnalysisPage() {
 
   const getContent = (type: string) => {
     const result = results.find((r) => r.type === type)
-    return result?.content
+    if (!result) return undefined
+    const raw = result.content
+    if (typeof raw === 'string') {
+      const cleaned = raw.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '')
+      try {
+        return JSON.parse(cleaned)
+      } catch {
+        return raw
+      }
+    }
+    return raw
   }
 
   if (error) {

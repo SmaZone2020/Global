@@ -7,7 +7,6 @@ import type { GeneratedAsset } from '@/types'
 const channels = [
   { key: 'instagram', label: 'Instagram' },
   { key: 'tiktok', label: 'TikTok' },
-  { key: 'xiaohongshu', label: '小红书' },
   { key: 'amazon', label: 'Amazon' },
 ]
 

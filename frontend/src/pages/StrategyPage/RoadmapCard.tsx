@@ -15,7 +15,7 @@ const phaseColors = [
 ] as const
 
 export default function RoadmapCard({ data, onRegenerate, regenerating }: Props) {
-  const phases = [data.phase1, data.phase2, data.phase3]
+  const phases = [data.phase1, data.phase2, data.phase3].filter(Boolean)
 
   return (
     <SectionCard
@@ -41,7 +41,7 @@ export default function RoadmapCard({ data, onRegenerate, regenerating }: Props)
               <div>
                 <p className="text-xs text-ink/40 mb-2">关键行动</p>
                 <ul className="space-y-1.5">
-                  {phase.actions.map((action, j) => (
+                  {(phase.actions ?? []).map((action, j) => (
                     <li key={j} className="text-sm text-ink/70 flex items-start gap-2">
                       <span className="w-1 h-1 mt-2 bg-gold shrink-0" />
                       {action}
@@ -52,7 +52,7 @@ export default function RoadmapCard({ data, onRegenerate, regenerating }: Props)
               <div>
                 <p className="text-xs text-ink/40 mb-2">验证指标</p>
                 <div className="flex flex-wrap gap-2">
-                  {phase.metrics.map((metric) => (
+                  {(phase.metrics ?? []).map((metric) => (
                     <span key={metric} className="px-2.5 py-1 text-xs bg-gold/10 text-gold border border-gold/15">
                       {metric}
                     </span>
