@@ -4,10 +4,34 @@ import { Loader2, Sparkles, Clapperboard, Clock, Copy, Check } from 'lucide-reac
 import { projectApi } from '@/services/api'
 
 const stylePresets = [
-  { key: 'cinematic', label: '电影质感', description: '大气镜头·慢动作·叙事感' },
-  { key: 'oriental', label: '东方美学', description: '水墨元素·古风·禅意' },
-  { key: 'trendy', label: '潮流快剪', description: '快节奏·社媒原生·年轻化' },
-  { key: 'product', label: '产品展示', description: '特写旋转·细节放大·商业风' },
+  { key: 'cinematic', label: '电影质感' },
+  { key: 'oriental', label: '东方美学' },
+  { key: 'trendy', label: '潮流快剪' },
+  { key: 'product', label: '产品展示' },
+  { key: 'documentary', label: '纪录片风' },
+  { key: 'minimal', label: '极简留白' },
+]
+
+const platformPresets = [
+  { key: 'tiktok', label: 'TikTok / 抖音' },
+  { key: 'instagram', label: 'Instagram Reels' },
+  { key: 'youtube', label: 'YouTube Shorts' },
+  { key: 'tv', label: 'TV 广告' },
+  { key: 'brand', label: '品牌官网' },
+]
+
+const durationPresets = [
+  { key: '15', label: '15秒' },
+  { key: '30', label: '30秒' },
+  { key: '60', label: '60秒' },
+]
+
+const tonePresets = [
+  { key: 'premium', label: '高端大气' },
+  { key: 'warm', label: '温暖亲切' },
+  { key: 'energetic', label: '活力动感' },
+  { key: 'cultural', label: '文化底蕴' },
+  { key: 'humorous', label: '幽默趣味' },
 ]
 
 interface ScriptResult {
@@ -22,6 +46,10 @@ interface Props {
 
 export default function VideoTab({ projectId }: Props) {
   const [selectedStyle, setSelectedStyle] = useState('cinematic')
+  const [selectedPlatform, setSelectedPlatform] = useState('tiktok')
+  const [selectedDuration, setSelectedDuration] = useState('15')
+  const [selectedTone, setSelectedTone] = useState('premium')
+  const [customStyle, setCustomStyle] = useState('')
   const [prompt, setPrompt] = useState('')
   const [generating, setGenerating] = useState(false)
   const [scripts, setScripts] = useState<ScriptResult[]>([])
@@ -29,9 +57,18 @@ export default function VideoTab({ projectId }: Props) {
   const handleGenerate = async () => {
     if (!prompt.trim()) return
     setGenerating(true)
+
+    const styleParts = [
+      stylePresets.find(s => s.key === selectedStyle)?.label,
+      platformPresets.find(s => s.key === selectedPlatform)?.label,
+      `${selectedDuration}秒`,
+      tonePresets.find(s => s.key === selectedTone)?.label,
+      customStyle.trim(),
+    ].filter(Boolean).join(' · ')
+
     try {
       const res = await projectApi.generateVideoScript(projectId, {
-        prompt,
+        prompt: `${prompt}\n\n风格要求：${styleParts}\n时长：${selectedDuration}秒\n平台：${selectedPlatform}`,
         style: selectedStyle,
       })
       if (res.success && res.data) {
@@ -52,32 +89,84 @@ export default function VideoTab({ projectId }: Props) {
         <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-gold/5 to-gold/8" />
         <div className="absolute inset-[1px] bg-cream-light" />
         <div className="relative p-6 space-y-5">
-          <label className="text-xs text-ink/40 mb-2 block">选择视频风格</label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {stylePresets.map((preset) => (
-              <motion.button
-                key={preset.key}
-                onClick={() => setSelectedStyle(preset.key)}
-                className={`relative p-4 text-left cursor-pointer border transition-all ${
-                  selectedStyle === preset.key
-                    ? 'border-chi/30 bg-chi/5'
-                    : 'border-ink/8 hover:border-gold/30 bg-cream'
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className={`text-sm font-medium mb-1 ${
-                  selectedStyle === preset.key ? 'text-chi' : 'text-ink'
-                }`}>
-                  {preset.label}
-                </div>
-                <div className="text-xs text-ink/40 leading-relaxed">
-                  {preset.description}
-                </div>
-              </motion.button>
-            ))}
+
+          {/* Row 1: Visual Style */}
+          <div>
+            <label className="text-xs text-ink/40 mb-2 block">视觉风格</label>
+            <div className="flex flex-wrap gap-2">
+              {stylePresets.map((preset) => (
+                <ChipButton
+                  key={preset.key}
+                  label={preset.label}
+                  active={selectedStyle === preset.key}
+                  onClick={() => setSelectedStyle(preset.key)}
+                />
+              ))}
+            </div>
           </div>
 
+          {/* Row 2: Platform */}
+          <div>
+            <label className="text-xs text-ink/40 mb-2 block">目标平台</label>
+            <div className="flex flex-wrap gap-2">
+              {platformPresets.map((preset) => (
+                <ChipButton
+                  key={preset.key}
+                  label={preset.label}
+                  active={selectedPlatform === preset.key}
+                  onClick={() => setSelectedPlatform(preset.key)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Row 3: Duration + Tone */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label className="text-xs text-ink/40 mb-2 block">时长</label>
+              <div className="flex flex-wrap gap-2">
+                {durationPresets.map((preset) => (
+                  <ChipButton
+                    key={preset.key}
+                    label={preset.label}
+                    active={selectedDuration === preset.key}
+                    onClick={() => setSelectedDuration(preset.key)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-ink/40 mb-2 block">调性</label>
+              <div className="flex flex-wrap gap-2">
+                {tonePresets.map((preset) => (
+                  <ChipButton
+                    key={preset.key}
+                    label={preset.label}
+                    active={selectedTone === preset.key}
+                    onClick={() => setSelectedTone(preset.key)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Row 4: Custom style supplement */}
+          <div>
+            <label className="text-xs text-ink/40 mb-2 block">
+              自定义风格补充（可选）
+            </label>
+            <input
+              type="text"
+              value={customStyle}
+              onChange={(e) => setCustomStyle(e.target.value)}
+              placeholder="例如：加入赛博朋克元素、使用分屏对比手法..."
+              className="w-full px-4 py-2.5 text-sm bg-cream border border-ink/8
+                         text-ink placeholder:text-ink/30
+                         focus:outline-none focus:border-gold/40 transition-colors"
+            />
+          </div>
+
+          {/* Row 5: Content prompt */}
           <div>
             <label className="text-xs text-ink/40 mb-2 block">视频内容描述</label>
             <textarea
@@ -116,9 +205,25 @@ export default function VideoTab({ projectId }: Props) {
   )
 }
 
+function ChipButton({ label, active, onClick }: {
+  label: string; active: boolean; onClick: () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1.5 text-xs cursor-pointer border transition-all ${
+        active
+          ? 'border-chi/30 bg-chi/8 text-chi font-medium'
+          : 'border-ink/8 bg-cream text-ink/50 hover:border-gold/30 hover:text-ink/70'
+      }`}
+    >
+      {label}
+    </button>
+  )
+}
+
 function ScriptCard({ result, index }: { result: ScriptResult; index: number }) {
   const [copied, setCopied] = useState(false)
-  const styleLabel = stylePresets.find(s => s.key === result.style)?.label ?? result.style
 
   const scenes = parseScenes(result.script)
 
@@ -141,9 +246,7 @@ function ScriptCard({ result, index }: { result: ScriptResult; index: number }) 
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Clapperboard className="w-4 h-4 text-chi" />
-            <span className="text-sm font-medium text-ink">{styleLabel}</span>
-            <span className="text-xs text-ink/30">|</span>
-            <span className="text-xs text-ink/40 truncate max-w-xs">{result.prompt}</span>
+            <span className="text-xs text-ink/40 truncate max-w-md">{result.prompt.split('\n')[0]}</span>
           </div>
           <button
             onClick={handleCopy}
@@ -187,9 +290,7 @@ function parseScenes(script: string): { time: string; description: string }[] {
   const lines = script.split('\n').filter(l => l.trim())
   return lines.map(line => {
     const match = line.match(/\[([^\]]+)\]\s*(.+)/)
-    if (match) {
-      return { time: match[1], description: match[2] }
-    }
+    if (match) return { time: match[1], description: match[2] }
     return { time: '', description: line.trim() }
   })
 }
