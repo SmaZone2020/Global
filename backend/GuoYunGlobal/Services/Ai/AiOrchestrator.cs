@@ -122,10 +122,15 @@ public class AiOrchestrator
 
     public async Task<string> GenerateVideoScriptAsync(string prompt, string style, CancellationToken ct = default)
     {
-        var system = "你是一位专业的短视频脚本编剧，擅长为产品营销视频编写分镜脚本。"
-            + "输出格式为：每行一个分镜，格式为 [时间段] 画面描述。总时长15秒左右，5-6个分镜。"
-            + "语言简洁有画面感，适合产品宣传短视频。";
-        var user = $"视频风格：{style}\n内容需求：{prompt}\n\n请生成15秒短视频分镜脚本：";
+        var system = "你是一位国际广告片导演，拥有20年商业短片拍摄经验，擅长将产品故事转化为极具视觉冲击力的分镜脚本。"
+            + "你精通镜头语言（推拉摇移跟升降）、光影设计、色彩心理学和叙事节奏。"
+            + "\n\n输出要求："
+            + "\n- 每行一个分镜，格式严格为：[起止时间] 镜头类型 | 画面内容 | 音效/配乐提示"
+            + "\n- 标注镜头运动方式（如：慢推、俯拍、手持跟拍、航拍、微距特写等）"
+            + "\n- 标注光线氛围（如：逆光剪影、暖色侧光、霓虹冷光等）"
+            + "\n- 最后一行附上整体配乐建议和色调方案"
+            + "\n- 根据用户指定的时长生成对应数量的分镜";
+        var user = $"视频风格与参数：\n{prompt}\n\n请以专业导演的视角生成完整分镜脚本：";
         try
         {
             return await _llm.ChatAsync(system, user, ct);
