@@ -231,7 +231,7 @@ function ChipGroup({ label, presets, selected, onSelect, customValue, onCustomCh
 
 function ScriptCard({ result, index }: { result: ScriptResult; index: number }) {
   const [copied, setCopied] = useState(false)
-  const scenes = parseScenes(result.script)
+  const sections = parseSections(result.script)
 
   const handleCopy = () => {
     navigator.clipboard.writeText(result.script)
@@ -249,10 +249,12 @@ function ScriptCard({ result, index }: { result: ScriptResult; index: number }) 
       <div className="absolute inset-0 bg-gradient-to-br from-gold/8 via-gold/3 to-gold/6" />
       <div className="absolute inset-[1px] bg-cream-light" />
       <div className="relative p-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <Clapperboard className="w-4 h-4 text-chi" />
-            <span className="text-xs text-ink/40 truncate max-w-md">{result.prompt.split('\n')[0]}</span>
+            <span className="text-sm font-medium text-ink">视频制作方案</span>
+            <span className="text-xs text-ink/30">|</span>
+            <span className="text-xs text-ink/40 truncate max-w-sm">{result.prompt.split('\n')[0]}</span>
           </div>
           <button
             onClick={handleCopy}
@@ -261,26 +263,46 @@ function ScriptCard({ result, index }: { result: ScriptResult; index: number }) 
                        cursor-pointer transition-colors"
           >
             {copied ? <Check className="w-3 h-3 text-verified" /> : <Copy className="w-3 h-3" />}
-            {copied ? '已复制' : '复制'}
+            {copied ? '已复制' : '复制全文'}
           </button>
         </div>
 
-        <div className="space-y-0">
-          {scenes.map((scene, i) => (
-            <div key={i} className="flex gap-3 group">
-              <div className="flex flex-col items-center">
-                <div className="w-2 h-2 mt-2 bg-gold shrink-0" />
-                {i < scenes.length - 1 && <div className="w-px flex-1 bg-gold/20 my-1" />}
-              </div>
-              <div className="pb-4 flex-1">
-                {scene.time && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 mb-1
-                                   bg-gold/10 text-gold text-xs font-medium">
-                    <Clock className="w-3 h-3" />
-                    {scene.time}
-                  </span>
-                )}
-                <p className="text-sm text-ink/70 leading-relaxed">{scene.description}</p>
+        <div className="space-y-5">
+          {sections.map((section, i) => (
+            <div key={i}>
+              {section.title && (
+                <h4 className="text-sm font-semibold text-chi mb-2 flex items-center gap-2">
+                  <span className="w-1 h-4 bg-gold inline-block" />
+                  {section.title}
+                </h4>
+              )}
+              <div className="space-y-1.5 pl-3">
+                {section.lines.map((line, j) => {
+                  const timeMatch = line.match(/^\[([^\]]+)\](.+)/)
+                  if (timeMatch) {
+                    return (
+                      <div key={j} className="flex gap-2 items-start">
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 shrink-0
+                                         bg-gold/10 text-gold text-xs font-medium mt-0.5">
+                          <Clock className="w-3 h-3" />
+                          {timeMatch[1]}
+                        </span>
+                        <span className="text-sm text-ink/70 leading-relaxed">{timeMatch[2].trim()}</span>
+                      </div>
+                    )
+                  }
+                  if (line.startsWith('- ')) {
+                    return (
+                      <div key={j} className="flex gap-2 items-start">
+                        <span className="w-1 h-1 mt-2 bg-gold/60 shrink-0" />
+                        <span className="text-sm text-ink/70 leading-relaxed">{line.slice(2)}</span>
+                      </div>
+                    )
+                  }
+                  return (
+                    <p key={j} className="text-sm text-ink/70 leading-relaxed">{line}</p>
+                  )
+                })}
               </div>
             </div>
           ))}
@@ -290,11 +312,28 @@ function ScriptCard({ result, index }: { result: ScriptResult; index: number }) 
   )
 }
 
-function parseScenes(script: string): { time: string; description: string }[] {
-  const lines = script.split('\n').filter(l => l.trim())
-  return lines.map(line => {
-    const match = line.match(/\[([^\]]+)\]\s*(.+)/)
-    if (match) return { time: match[1], description: match[2] }
-    return { time: '', description: line.trim() }
-  })
+function parseSections(script: string): { title: string; lines: string[] }[] {
+  const sections: { title: string; lines: string[] }[] = []
+  let current: { title: string; lines: string[] } = { title: '', lines: [] }
+
+  for (const line of script.split('\n')) {
+    const trimmed = line.trim()
+    if (!trimmed) continue
+
+    const headingMatch = trimmed.match(/^#{1,3}\s+(.+)/)
+    if (headingMatch) {
+      if (current.title || current.lines.length > 0) {
+        sections.push(current)
+      }
+      current = { title: headingMatch[1], lines: [] }
+    } else {
+      current.lines.push(trimmed)
+    }
+  }
+
+  if (current.title || current.lines.length > 0) {
+    sections.push(current)
+  }
+
+  return sections
 }

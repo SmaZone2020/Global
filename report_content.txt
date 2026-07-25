@@ -1,0 +1,128 @@
+福建老酒出海市场与策略研究报告
+执行摘要
+福建老酒最适合走的不是“先打大市场、再补合规”，而是“先打低税负、强文化亲和、短链路市场，再向高壁垒高回报市场爬坡”。从公开贸易数据、各地酒类监管门槛、税负结构和福建老酒自身产品结构看，香港应作为首发市场，新加坡作为东南亚转运与品牌放大第二站，日本作为第二阶段重点餐饮渠道市场，美国西海岸与欧盟应放在第三阶段做高毛利试点。核心原因很明确：香港是自由港、对酒精浓度不高于30%的酒类和葡萄酒已撤销牌照/许可证安排，且对一般食品进口多数无需事前批准；同时香港 2024 年 HS2206“其他发酵饮料”进口额约 4,445 万美元，其中中国来源约 798 万美元，证明市场对亚洲发酵酒已有现实需求，且中国货有进入基础。[1]
+首发产品建议采用“双轮驱动”而不是单一SKU。 走量单品建议为“485mL 福建老酒 8年陈酿厨用老酒”，品牌形象单品建议为“鼓山福建老酒 500mL 13度 三坊七巷版”或“闽越红 10年喜酒 600mL 礼盒”。原因在于福建老酒当前产品库天然分成两条线：一条是高频复购的厨用老酒，一条是适合礼赠、餐酒、文化表达的饮用红曲黄酒。根据用户提供的《福建老酒公司及产品介绍》，福建老酒目前既有 485mL 经典款、8年陈酿、750mL 厨用产品，也有鼓山 11度/13度饮用系列以及闽越红 10—30 年高端礼盒系列，出厂价与建议零售价带覆盖低中高多个价格带，具备先做厨房场景、再抬升礼赠与饮用场景的条件。（用户提供的《福建老酒公司及产品介绍》第15-38页）
+在市场打法上，本报告建议把福建老酒从“地方调味酒”升级为“福建红曲发酵文化产品”，但必须彻底去除海外传播中的保健/药用暗示。官方英文站点目前使用了“60+ Chinese medicines”“nutrition and medicinal value”“for pregnant women, children and the elderly”等叙述，这在美国、欧盟、日本、韩国、新加坡等市场都极易触发酒类或食品健康宣称风险，因此出口版品牌手册必须重写，只保留“红曲发酵、低温陈酿、福建文化、烹饪适配性、节庆礼赠”这些合规表达。[2]
+如果只给一句最简建议，那就是：先香港，先“8年陈酿厨用老酒+中端饮用鼓山版”双SKU试水；六个月内做餐饮和华人零售密度，十八个月内用香港验证模型复制到新加坡与澳门，再把日本和美国的餐饮/礼赠渠道作为高毛利延展。 这是目前最稳、最可执行、也最符合福建老酒资源禀赋的出海路径。[3]
+研究口径与关键假设
+本报告的市场规模测算，主要采用 HS2206“其他发酵饮料”进口额作为福建老酒可进入品类的公开替代口径，原因是各国海关与统计机构通常不会单列“福建老酒”或“红曲黄酒”；而福建老酒在饮用酒路径上，通常会落入“其他发酵饮料”类目。日本海关税则也将 sake 与其他 fermented beverages 放在 2206 项下处理。[4]
+但需要特别强调，厨用老酒存在“酒类”与“调味品”双重归类敏感性。新加坡海关明确把 rice wine、cooking wine、sake 视作 liquor 类型；而不同市场对含盐、是否用于直接饮用、是否标示 cooking-only 的产品，可能在实际归类、税负和销售渠道上给出不同处理。因此，本报告将“饮用型福建老酒”与“厨用型福建老酒”分开分析，并把“预归类/预裁定”列为进入前置动作，而不是上市后的补救动作。[5]
+在价格与毛利测算上，本报告把用户提供图册中的出厂价/建议零售价视为中国国内参考价，再叠加海外常见的海运、清关、进口商毛利、分销商毛利与零售加价做区间估算。香港由于对低度酒税负极轻，海外零售价可以沿着“国内建议零售价的 1.4—2.0 倍”布局；新加坡因酒税和 GST 明显抬高成本，零售端通常需要“国内建议零售价的 2.5—4.0 倍”才有合理利润空间。这个差异不是品牌力决定的，而是税制决定的。[6]
+本报告的市场优先级评分使用四个维度：市场潜力 40%，法规难度 25%，文化亲和度 20%，物流成本 15%。市场潜力主要参考目标市场 HS2206 进口额、中国现有份额以及是否存在成熟亚洲发酵酒消费习惯；法规难度主要看是否存在前置标签审批、进口通知、海外工厂登记、特定酒税与三层分销限制；文化亲和度主要看华人基础、餐饮场景与对 rice wine/sake/makgeolli 等近似品类的接受度；物流成本则看与福建的距离、是否适合海运整柜/拼柜、是否容易做保税或转口。评分是策略判断，不是海关统计，因此属于有依据的决策模型而非官方排名。[7]
+市场概况与优先级建议
+从全球公开统计看，HS2206“其他发酵饮料”的 2024 年主要进口市场依次包括美国、英国、中国、日本和欧盟。其中，美国进口额约 4.406 亿美元，日本约 7,037 万美元，欧盟约 6,681 万美元；这说明“发酵米酒/清酒/黄酒/苹果酒”等混合大类在全球并不是小到不可做的品类，但不同市场的主流口味差异极大。对福建老酒而言，真正可转化的不是全部 HS2206 市场，而是其中对亚洲餐饮、华人厨房、礼赠文化和低度发酵酒有实际接纳能力的那一层。[8]
+中国 2024 年 HS2206 出口额约 3,516.8 万美元，前五目的地为日本、香港、越南、美国和韩国；如果只看“从中国进口此品类”的市场排名，日本、香港、欧盟、澳门、韩国最突出。这意味着福建老酒不用从零教育世界市场，至少在东亚、港澳和部分欧美华人渠道中，已经存在现实的中国产发酵酒进口流。[9]
+重点市场比较
+表中市场规模、税制与合规要点综合自 WITS/World Bank、香港海关与食安中心、新加坡海关、美国 TTB/FDA、日本厚劳省与消費者庁、韩国 MFDS、欧盟委员会/Access2Markets、南非 SARS、台湾关务署等公开来源。[20]
+市场优先级评分
+这个评分的实质结论是：首发一定不该放在美国或欧盟。这些市场虽然总盘子大，但福建老酒当前最强的优势不是国际品牌认知，而是“文化故事 + 烹饪用途 + 低度发酵酒体验 + 价格带宽度”；这四件事在香港最容易转化成现金流，在新加坡最容易转化成区域样板，在日本最容易转化成专业餐饮认可。[21]
+福建老酒产业现状与竞争格局
+福建老酒集团的外部可讲述性很强。根据官方英文网站和用户提供图册，品牌可追溯到 1842 年，下渡街大兴酒坊起家，1958 年公私合营并注册“鼓山”商标，1982 年改名福州第一酒厂，2011 年获“中华老字号”称号，2022 年成立投资集团；品牌官网还显示其在香港已有门店。用户提供图册第7页同时展示了“中华老字号”铭牌以及“第七批福州市非物质文化遗产：福建老酒传统酿制技艺（市直）”证书，这意味着品牌在“历史真实性—地方性—非遗”三条线上都具备传播资产。（用户提供的《福建老酒公司及产品介绍》第6-7页）[22]
+从生产端看，用户提供图册第11页列出了四个基地：福州闽侯基地约 70 亩、年产能 1 万吨；江西南丰基地约 350 亩、年产 2 万吨；福清基地约 110 亩、年产值约 2 亿元；安徽望江基地约 300 亩、年产值约 2 亿元。严格说，只有福州和江西给出了产量口径，因此可确认的披露产能至少为 3 万吨/年；福清与安徽披露的是产值，不宜直接与吨数相加。（用户提供的《福建老酒公司及产品介绍》第11页）
+从品类结构看，福建老酒并不是单一产品，而是一套可分层的产品矩阵：图册第15—22页是厨用老酒，覆盖 380mL、485mL、750mL、1.5L PET 和礼盒；第25—38页是饮用酒，包含“闽越红福建红曲酒”“鼓山福建老酒”“闽越红10年—30年陈酿”等。再叠加官网中对“Gutian Red Yeast”“60+ Chinese medicines starter”“household staple” 的强调，说明其差异化核心不只是“黄酒”，而是福州红曲工艺 + 厨用文化 + 礼赠文化 + 福建地域叙事的组合。[23]
+福建老酒代表品牌与产品带
+福建老酒当前的最大优势，不是它在单一价格带上很强，而是它天生拥有从低价高频厨房用品，到中价饮用场景，再到高价礼盒的完整梯度。这意味着出海时可以用“低价SKU做进店、复购、高周转”，再用“中高价SKU做利润和品牌抬升”，而不必一开始就陷入高端黄酒与清酒的正面竞争。这个结构是很多区域黄酒品牌不具备的。
+竞争对比
+这个竞争格局说明，福建老酒如果在海外只讲“我也是 rice wine”，会同时被绍兴黄酒、日本清酒、味醂、韩国米酒和廉价料理酒夹击；但如果它讲的是“福建红曲—中式烹饪—福州文化—礼赠节庆”，它反而有独一性。[32]
+进入模式、渠道组合与本地化传播
+福建老酒不适合用单一进入模式覆盖全部海外市场。香港/澳门宜以总经销 + 餐饮直营支持为主，新加坡宜以进口商/分销商 + 保税/FTZ仓为主，日本宜以餐饮批发商合作为主，美国与欧盟宜以小规模进口商试点、避免重资产先行。 这是因为饮用型酒类和厨用型米酒的监管、终端货架、消费者触发点都不同。[33]
+进入模式对比
+表中时间线和成本为策略估算；其中合规动作参考香港食安条例和线上食品销售指引、新加坡 Customs/FTZ 与 liquor 规则、美国 TTB/FDA、日本厚劳省、韩国 MFDS 等公开制度要求。[34]
+建议渠道矩阵
+首发期香港建议采用“三层渠道”并行。第一层是福建菜馆/闽菜馆/海鲜餐厅/补品汤水店/婚宴场景，用厨用老酒与中端饮用酒同时进入；第二层是华人食品零售与电商，用 485mL 经典款、8年陈酿和礼盒铺货；第三层是礼品店与节庆礼盒渠道，用闽越红 10年—20年和定制礼盒在春节、中秋、婚庆季做高客单销售。香港当前已存在品牌门店与华人食品店销售福建老酒，这证明渠道教育成本不是从零开始。[35]
+新加坡不适合先用广泛零售砸货架，因为酒税和物流会迅速削薄利润。更适合的打法是：先做 B2B 进口商 + 华人餐饮/亚洲超市 + 机场/港口转口仓。新加坡 FTZ 对酒类可暂存 30 天，适合作为东南亚转口节点；同时新加坡超市中日本味醂、清酒、韩国米酒、华人料理酒都已有成熟货架，可以让福建老酒借“亚洲发酵酒”大品类教育减少冷启动成本。[36]
+日本的突破口不应是零售，而应是中餐餐饮、华人/福建餐饮、地方酒吧和发酵主题餐厅。日本消费者懂发酵酒，但对中国地方黄酒的理解不深；因此最有效的方法不是先上便利店或大众商超，而是先在餐厅把“福建菜的专用餐酒/料理酒”建立起来，再反向进入 specialty retail。日本对中国来源的 HS2206 进口额已超过一千万美元，说明入口并非关闭，只是竞争门槛较高。[37]
+本地化与品牌传播建议
+福建老酒的本地化第一原则不是换口味，而是换语言框架。海外包装和传播中，建议把品牌主叙事重写为：“Fujian Red Yeast Rice Wine / Fukien Old Wine / Fujian Heritage Fermented Rice Wine”，并区分两条品类说明：厨用款强调“for braising, marinating, seafood and slow-cooked soups”；饮用款强调“serve warm or chilled; for festive dining and food pairing”。相反，必须删除一切关于孕妇、儿童、老人适用，以及保健、药用、滋补、营养高于其他酒类的描述，因为这类文字会在多个市场触发违规。[2]
+包装层面，香港和澳门建议保留汉字主视觉，但加英文副标题；新加坡、日本、韩国和欧美则建议采用双语标签，并把“鼓山”“三坊七巷”“闽越红”解释为地标或文化符号，而不是仅保留中文拼音。欧盟对成分和营养新规、香港对预包装食品标签、马来西亚对标签审查、日本对营养成分标示都说明：出口版标签不应只是“翻译内销版”，而应是重新设计的合规标签。 [38]
+种草与传播上，最有性价比的不是泛酒类 KOL，而是“福建菜/中式海鲜/坐月子汤水/节庆宴席/发酵饮食/中餐师傅”这几类垂直内容作者。其中厨用老酒内容适合短视频和菜谱联动，饮用礼盒适合节庆礼赠与文化故事。香港首阶段可以用“福建菜 + 老酒海鲜 + 节庆热饮”做线下品鉴；新加坡可以做“福建老酒 x 肉骨茶/药膳鸡/海鲜焖煮”的跨族群改造；日本则更适合“发酵文化交流”“中餐主厨 pairing dinner”。这些打法比单纯说“古法黄酒”更容易转化。[39]
+供应链、定价策略与预算建议
+福建老酒出海的供应链关键不是冷链，而是稳定性、预归类和温控。黄酒/红曲酒通常不需要全程冷链，但对高温、长时间暴晒和运输震荡敏感，尤其饮用款更容易受香气与色泽波动影响；因此建议饮用款优先采用玻璃瓶和防漏封口，厨用款允许保留 PET/玻璃双路线，但出口到高温航线市场时应避免长时间暴露在 35℃ 以上环境。新加坡 FTZ、香港自由港和美国/欧盟保税仓都可作为缓冲节点，但酒类进入本地销售前必须完成相应税务和食品申报。[40]
+在质量与原料控制上，建议把出口前检测从常规理化指标扩展到重金属、真菌毒素、添加剂、过敏原与酒精稳定性。美国 99 Ranch 上销售的中国料理酒页面出现了 Proposition 65 关于 lead 的警示，这说明美国零售环境对中式料理酒的重金属和合规风险极为敏感；欧盟则要求对 sulphites 等过敏原做清晰标识；新加坡和香港都强调只允许当地法规认可的食品添加剂。换句话说，出口不是多贴一张标签，而是要把检测体系、批次追溯和英文 COA一起准备好。[41]
+建议零售价与促销策略
+香港建议的价格带，是基于图册出厂价/建议零售价、香港现售福建老酒价位和香港高端绍兴酒价位综合估算得出；新加坡建议价格，额外考虑了当地 liquor 税负、GST 和分销结构，因此明显高于香港。[45]
+在促销上，福建老酒最有效的不是“打折”，而是场景捆绑。厨用款适合“老酒 + 酱油/鱼露/香辛料 + 菜谱卡”的厨房组合；饮用款适合“老酒 + 温酒器/酒杯/福州点心”的礼盒化组合。新加坡和香港已存在成熟的味醂、料理酒和发酵酒消费心智，福建老酒促销的重点应是“替代成本降低”和“第一次用不出错”，而不是简单做价格战。[46]
+敏感性分析
+新加坡税负敏感性尤其值得重视：同样是 500mL、11%vol 的产品，如果按每升酒精 16 新元的 wine line 粗算，税额约 0.88 新元；若按每升酒精 88 新元的 other intoxicating liquors 粗算，税额可升至约 4.84 新元，差距足以改变是否值得进入商超货架。由于 rice wine/cooking wine/sake 都被新加坡海关纳入 liquor 监管范围，预归类必须在签经销协议之前完成。[44]
+预算范围与资金分配建议
+如果以“香港首发 + 新加坡复制 + 日本餐饮切入”为三年规划，建议准备的总预算区间为人民币 2,600 万—4,800 万元。其中低配适用于代理驱动、轻团队模式；高配适用于自建海外营销/品控/保税仓协同模式。这个预算并不夸张，因为酒类出海成本的核心不是货值，而是合规、渠道、试饮教育与库存周转。[48]
+预算配置的基本逻辑是：前 12 个月，钱优先花在“让产品能卖出去”而不是“让品牌看起来很高级”。因此，首年预算更应该投向经销商激励、餐饮试饮、合规和小批量内容种草，而不是重金投放大众媒体。
+风险评估、分阶段实施计划与KPI
+福建老酒出海最大的风险，不是“市场不接受”，而是被错误归类、被错误传播、被错误定价。如果把它当作普通料理酒，利润上不来；如果把它当健康酒，监管会出问题；如果把它当高端年份黄酒直接与绍兴和清酒对标，渠道又推不动。所以风险管理必须围绕“产品定义”展开。[49]
+主要风险与应对
+这些风险里，最优先的动作有两个：第一，停止海外版一切保健/适用人群描述；第二，在香港和新加坡先完成样品级合规评审再签大货单。这两步做好，后续风险会下降一大截。[50]
+分阶段实施路径
+下图基于“香港首发—新加坡复制—日本深化—欧美试点”的策略设计。时间安排结合了香港低门槛快速上市、新加坡需做税务与仓储设计、日本需餐饮渠道教育、欧美需更长合规准备的现实节奏。[51]
+阶段目标与KPI
+如果执行顺利，到 36 个月时，福建老酒海外业务应达到这样的结构：香港贡献现金流和品牌验证，新加坡贡献区域仓与东南亚外溢，日本贡献餐饮专业背书，欧美贡献高毛利长尾订单。 这会比“一开始就去美国做全渠道”更稳，也更符合福建老酒当前的资源配置。[52]
+最终建议
+综合市场、税务、渠道与产品矩阵，本报告给出以下最终落地建议：
+首发市场：香港。
+首发产品：如果只能选一个 SKU，选 485mL 8年陈酿厨用老酒；如果允许双 SKU，增加 500mL 鼓山福建老酒 13度“三坊七巷版”。
+首发渠道：总代 + 餐饮直控 + 华人零售电商。
+首发传播：福建菜主厨联名、节庆礼盒、菜谱短视频，而非泛酒类广告。
+次序安排：香港 → 澳门/新加坡 → 日本/韩国 → 美国西海岸/欧盟单点。
+这样做的本质，是把福建老酒从“产地产品”变成“可被海外理解和购买的福建发酵文化品牌”。从现有公开数据看，这条路径具备现实基础；从福建老酒现有产品带看，这条路径也具备可执行性。[53]
+
+[1] [6] https://www.customs.gov.hk/sc/service-enforcement-information/cargo-clearance/index.html
+https://www.customs.gov.hk/sc/service-enforcement-information/cargo-clearance/index.html
+[2] [22] [23] [32] [39] [49] [50] https://www.fukienoldwine.com/about
+https://www.fukienoldwine.com/about
+[3] [7] [10] [20] [21] [52] [53] https://wits.worldbank.org/trade/comtrade/en/country/HKG/year/2024/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/HKG/year/2024/tradeflow/Imports/partner/ALL/product/220600
+[4] https://www.customs.go.jp/tariff/2026_04_01/naccscode202604_3.html
+https://www.customs.go.jp/tariff/2026_04_01/naccscode202604_3.html
+[5] [44] [47] https://www.customs.gov.sg/at-customs/arriving-in-singapore/duty-free-concession-gst-relief/
+https://www.customs.gov.sg/at-customs/arriving-in-singapore/duty-free-concession-gst-relief/
+[8] https://wits.worldbank.org/trade/comtrade/en/country/ALL/year/2024/tradeflow/Imports/partner/WLD/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/ALL/year/2024/tradeflow/Imports/partner/WLD/product/220600
+[9] https://wits.worldbank.org/trade/comtrade/en/country/CHN/year/2024/tradeflow/Exports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/CHN/year/2024/tradeflow/Exports/partner/ALL/product/220600
+[11] [14] https://wits.worldbank.org/trade/comtrade/en/country/All/year/2024/tradeflow/Imports/partner/CHN/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/All/year/2024/tradeflow/Imports/partner/CHN/product/220600
+[12] https://wits.worldbank.org/trade/comtrade/en/country/SGP/year/2023/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/SGP/year/2023/tradeflow/Imports/partner/ALL/product/220600
+[13] https://wits.worldbank.org/trade/comtrade/en/country/MYS/year/2024/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/MYS/year/2024/tradeflow/Imports/partner/ALL/product/220600
+[15] https://wits.worldbank.org/trade/comtrade/en/country/KOR/year/2024/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/KOR/year/2024/tradeflow/Imports/partner/ALL/product/220600
+[16] https://wits.worldbank.org/trade/comtrade/en/country/USA/year/2024/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/USA/year/2024/tradeflow/Imports/partner/ALL/product/220600
+[17] https://wits.worldbank.org/trade/comtrade/en/country/EUN/year/2024/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/EUN/year/2024/tradeflow/Imports/partner/ALL/product/220600
+[18] https://wits.worldbank.org/trade/comtrade/en/country/ZAF/year/2023/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/ZAF/year/2023/tradeflow/Imports/partner/ALL/product/220600
+[19] https://hscode.customs.gov.tw/
+https://hscode.customs.gov.tw/
+[24] [45] https://www.tshfoodhk.com/product/%E7%A6%8F%E5%BB%BA%E8%80%81%E9%85%92/
+https://www.tshfoodhk.com/product/%E7%A6%8F%E5%BB%BA%E8%80%81%E9%85%92/
+[25] https://www.hktvmall.com/hktv/zh/main/%E5%8F%A4%E8%B6%8A%E9%BE%8D%E5%B1%B1%E5%AE%98%E6%96%B9%E6%97%97%E8%89%A6%E5%BA%97/s/H6847001/%E8%B6%85%E7%B4%9A%E5%B7%BF%E5%A0%B4/%E8%B6%85%E7%B4%9A%E5%B8%82%E5%A0%B4/%E9%85%92%E9%A1%9E/%E4%B8%AD%E5%9C%8B%E9%85%92/%E9%BE%8D%E9%86%9E%E5%8D%81%E4%BA%94%E5%B9%B4%E7%B4%B9%E8%88%88%E8%8A%B1%E9%9B%95%E9%85%92500ml-x-3%E6%94%AF/p/H6847001_S_5011523
+https://www.hktvmall.com/hktv/zh/main/%E5%8F%A4%E8%B6%8A%E9%BE%8D%E5%B1%B1%E5%AE%98%E6%96%B9%E6%97%97%E8%89%A6%E5%BA%97/s/H6847001/%E8%B6%85%E7%B4%9A%E5%B7%BF%E5%A0%B4/%E8%B6%85%E7%B4%9A%E5%B8%82%E5%A0%B4/%E9%85%92%E9%A1%9E/%E4%B8%AD%E5%9C%8B%E9%85%92/%E9%BE%8D%E9%86%9E%E5%8D%81%E4%BA%94%E5%B9%B4%E7%B4%B9%E8%88%88%E8%8A%B1%E9%9B%95%E9%85%92500ml-x-3%E6%94%AF/p/H6847001_S_5011523
+[26] [42] https://www.fairprice.com.sg/product/357302
+https://www.fairprice.com.sg/product/357302
+[27] [46] https://www.fairprice.com.sg/product/10106300
+https://www.fairprice.com.sg/product/10106300
+[28] https://www.fairprice.com.sg/product/kooksoondang-makkoli-rice-beer-750ml-13020901
+https://www.fairprice.com.sg/product/kooksoondang-makkoli-rice-beer-750ml-13020901
+[29] https://www.fairprice.com.sg/product/494815
+https://www.fairprice.com.sg/product/494815
+[30] [41] https://www.99ranch.com/product-details/1614973/8899/673367149738
+https://www.99ranch.com/product-details/1614973/8899/673367149738
+[31] https://www.totalwine.com/wine/japan/c/000594
+https://www.totalwine.com/wine/japan/c/000594
+[33] [48] https://www.cfs.gov.hk/english/foodsafetyordinance/food_safety_ordinance.html
+https://www.cfs.gov.hk/english/foodsafetyordinance/food_safety_ordinance.html
+[34] https://www.cfs.gov.hk/english/whatsnew/whatsnew_fst/whatsnew_fst_Online_sale_of_food.html
+https://www.cfs.gov.hk/english/whatsnew/whatsnew_fst/whatsnew_fst_Online_sale_of_food.html
+[35] https://www.fukienoldwine.com/
+https://www.fukienoldwine.com/
+[36] [40] https://www.customs.gov.sg/doing-business/import-operations/import-procedures/depositing-goods-in-free-trade-zones/
+https://www.customs.gov.sg/doing-business/import-operations/import-procedures/depositing-goods-in-free-trade-zones/
+[37] https://wits.worldbank.org/trade/comtrade/en/country/JPN/year/2023/tradeflow/Imports/partner/ALL/product/220600
+https://wits.worldbank.org/trade/comtrade/en/country/JPN/year/2023/tradeflow/Imports/partner/ALL/product/220600
+[38] https://agriculture.ec.europa.eu/media/news/new-rules-wine-labelling-enter-application-2023-12-07_en
+https://agriculture.ec.europa.eu/media/news/new-rules-wine-labelling-enter-application-2023-12-07_en
+[43] https://yickfung.store/product/huangjiu-3-20yrs-500ml/
+https://yickfung.store/product/huangjiu-3-20yrs-500ml/
+[51] https://www.customs.gov.hk/en/service-enforcement-information/trade-facilitation/faqs/index.html
+https://www.customs.gov.hk/en/service-enforcement-information/trade-facilitation/faqs/index.html
