@@ -82,6 +82,9 @@ export const projectApi = {
   generateVideoScript: (id: number, data: { prompt: string; style: string }): ApiCall<{ script: string; style: string; prompt: string }> =>
     api.post(`/projects/${id}/videoScript`, data),
 
+  generateAbTest: (id: number): ApiCall<{ versions: { versionKey: string; versionLabel: string; content: string }[] }> =>
+    api.post(`/projects/${id}/abtest`),
+
   getPosterPresets: (): ApiCall<PosterPresetInfo[]> =>
     api.get('/projects/poster/presets'),
 

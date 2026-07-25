@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FileText, Image, Clapperboard, ArrowRight } from 'lucide-react'
+import { FileText, Image, Clapperboard, FlaskConical, ArrowRight } from 'lucide-react'
 import GoldParticles from '@/components/shared/GoldParticles'
 import ContentTab from './ContentTab'
 import PosterTab from './PosterTab'
 import VideoTab from './VideoTab'
+import AbTestTab from './AbTestTab'
 
 const tabs = [
   { key: 'content', label: '文案生成', icon: <FileText className="w-4 h-4" /> },
   { key: 'poster', label: '海报生成', icon: <Image className="w-4 h-4" /> },
   { key: 'video', label: '视频脚本', icon: <Clapperboard className="w-4 h-4" /> },
+  { key: 'abtest', label: '多版本测试', icon: <FlaskConical className="w-4 h-4" /> },
 ]
 
 export default function MarketingPage() {
@@ -77,6 +79,7 @@ export default function MarketingPage() {
       {activeTab === 'content' && <ContentTab projectId={projectId} />}
       {activeTab === 'poster' && <PosterTab projectId={projectId} />}
       {activeTab === 'video' && <VideoTab projectId={projectId} />}
+      {activeTab === 'abtest' && <AbTestTab projectId={projectId} />}
     </div>
   )
 }

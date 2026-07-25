@@ -181,4 +181,50 @@ public class AiOrchestrator
         var user = $"品牌名称：{brandName}\n产品名称：{productName}";
         return await _llm.ChatAsync(system, user, ct);
     }
+
+    public async Task<string> GenerateAbTestVersionAsync(string productContext, string versionKey, string versionLabel, CancellationToken ct = default)
+    {
+        var system = @"你是一位品牌出海定位专家。请为指定产品生成一个特定定位方向的完整营销方案。
+
+输出Markdown格式，包含以下板块：
+
+## 定位说明
+用2-3句话概括这个定位方向的核心逻辑
+
+## 核心卖点（3-5个）
+每个卖点用一句话表达，要求能直接用于广告文案
+
+## 目标人群
+- 典型用户画像
+- 核心消费场景
+- 购买动机
+
+## 品牌Slogan（3个候选）
+中英双语
+
+## 社媒文案（3条）
+- 适合Instagram/TikTok的短文案
+- 含Hashtag
+
+## 产品描述（英文，100字）
+面向海外消费者的产品一句话介绍
+
+## 视觉风格建议
+- 主色调
+- 拍摄场景
+- 模特/道具方向
+
+请确保内容围绕指定的定位方向展开，不要泛化。直接输出Markdown。";
+
+        var user = $"{productContext}\n\n请以「{versionLabel}」为定位方向生成完整营销方案。";
+        try
+        {
+            return await _llm.ChatAsync(system, user, ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "AB test version generation failed for {Key}", versionKey);
+            return $"## {versionLabel}\n\n（生成失败，请重试）";
+        }
+    }
 }
