@@ -120,6 +120,23 @@ public class AiOrchestrator
         }
     }
 
+    public async Task<string> GenerateVideoScriptAsync(string prompt, string style, CancellationToken ct = default)
+    {
+        var system = "你是一位专业的短视频脚本编剧，擅长为产品营销视频编写分镜脚本。"
+            + "输出格式为：每行一个分镜，格式为 [时间段] 画面描述。总时长15秒左右，5-6个分镜。"
+            + "语言简洁有画面感，适合产品宣传短视频。";
+        var user = $"视频风格：{style}\n内容需求：{prompt}\n\n请生成15秒短视频分镜脚本：";
+        try
+        {
+            return await _llm.ChatAsync(system, user, ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Video script generation failed");
+            return "";
+        }
+    }
+
     public async Task<string> GenerateProductInfoAsync(string brandName, string productName, CancellationToken ct = default)
     {
         var system = PromptTemplates.ProductInfoGenerate;
